@@ -18,7 +18,8 @@ const EnterDetails = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Appointment Details:", { ...formData, selectedDate, selectedTime });
+    console.log("Appointment Details:", { ...formData, selectedDate,
+         selectedTime });
     alert("Appointment Confirmed!");
   };
 
