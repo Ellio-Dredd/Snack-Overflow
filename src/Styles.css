@@ -1,0 +1,136 @@
+/* General Page Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Main Container */
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 30px auto;
+    background: #d4f1d1; /* Light green background */
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+/* Title */
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: left;
+}
+
+/* Flexbox Layout */
+.appointment-container {
+    display: flex;
+    border: 2px solid blue;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 10px;
+}
+
+/* Left Section - Pharmacy Details */
+.pharmacy-section {
+    flex: 1;
+    padding: 20px;
+    border-right: 1px solid #ccc;
+}
+
+.pharmacy-section h3 {
+    font-size: 20px;
+    color: #4a6655;
+    margin-bottom: 10px;
+}
+
+.pharmacy-address {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.blue-text {
+    color: #0077cc;
+    font-weight: bold;
+}
+
+/* Middle Section - Full Calendar */
+.calendar-section {
+    flex: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.react-calendar {
+    width: 100%;
+    max-width: 300px;
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.react-calendar__tile {
+    font-size: 14px;
+    padding: 8px;
+}
+
+.react-calendar__tile--active {
+    background: #007bff;
+    color: white;
+    border-radius: 5px;
+}
+
+/* Right Section - Time Slots */
+.time-section {
+    flex: 0.5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    gap: 10px;
+}
+
+.time-button {
+    width: 100px;
+    background: #004080;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.time-button:hover {
+    background: #002d5c;
+}
+
+.time-button.selected {
+    background: #ffcc00;
+    color: black;
+}
+
+/* Next Button */
+.next-button {
+    display: block;
+    width: 150px;
+    background: #007bff;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin: 20px auto;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+}
+
+.next-button:hover {
+    background: #0056b3;
+}
