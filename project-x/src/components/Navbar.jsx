@@ -1,9 +1,14 @@
 
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { Link } from "react-router-dom";
+import Home from "../pages/Home";
+
+import Contact from "../pages/Contact";
 
 
 export default function Navbar() {
     return (
+      
       <nav className="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
         <div className="container-fluid">
           <a className="navbar-brand" href="#">Pharmacy</a>
@@ -31,7 +36,7 @@ export default function Navbar() {
                 <a className="nav-link" href="#">E-Channeling</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">Contact Us</a>
+                <a className="nav-link" href="#"><Link to="/contact">Contact</Link></a>
               </li>
             </ul>
   
@@ -50,5 +55,9 @@ export default function Navbar() {
           </div>
         </div>
       </nav>
+
+
+
+     
     );
   }
