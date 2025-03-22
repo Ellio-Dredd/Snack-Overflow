@@ -3,6 +3,8 @@ import AdminFeedback from "./pages/AdminFeedback";
 import Navbar from "./components/Navbar";
 import Home from './pages/Home'
 import Contact from './pages/Contact'
+import Footer from "./components/Footer"
+
 
 export default function AppRouter() {
   return (
@@ -16,6 +18,7 @@ export default function AppRouter() {
             <Route path="/Contact" element={<Contact />} />
           </Routes>
         </div>
+        <Footer/>
       </div>
    
   );

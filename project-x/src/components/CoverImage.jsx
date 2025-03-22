@@ -50,7 +50,7 @@ const CoverImage = () => {
             height: "100%",
             backgroundImage: `url('https://i.ibb.co/JW0WSrBT/download-removebg.png')`,
             backgroundSize: "contain", // Ensures entire image is visible
-            backgroundRepeat: "no-repeat", // Prevents repeating
+            backgroundRepeat: "no-repeat", // Prevents repeating THE IMAGE 
             backgroundPosition: "center",
             // zIndex: 1, // Image on top of text
           }}

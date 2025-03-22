@@ -1,13 +1,21 @@
 import CoverImage from "../components/CoverImage";
+import CareTypeCard from "../components/CareTypeCard";
+import Box from '@mui/material/Box';
 
 
 export default function Home() {
     return (
-      <div>
+      <div style={{backgroundColor :"#1e67b0"}} >
         <CoverImage/>
         
-        <h1>Welcome to Rajapakshe Pharmacy</h1>
-        <p>Shop for medicines and book doctor appointments.</p>
+       <br></br>
+
+       <Box sx={{ display: 'flex', gap: 2 , marginRight:"5px"}}>
+      <CareTypeCard />
+      <CareTypeCard />
+      <CareTypeCard />
+      </Box>
+        
       </div>
     );
   }
