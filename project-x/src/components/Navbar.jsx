@@ -27,7 +27,7 @@ export default function Navbar() {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">Home</a>
+                <a className="nav-link active" aria-current="page" ><Link to="/">Home</Link></a>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="#">Store</a>
@@ -36,7 +36,7 @@ export default function Navbar() {
                 <a className="nav-link" href="#">E-Channeling</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#"><Link to="/contact">Contact</Link></a>
+                <a className="nav-link" ><Link to="/contact">Contact</Link></a>
               </li>
             </ul>
   
@@ -49,7 +49,7 @@ export default function Navbar() {
                 <a className="nav-link" href="#">Log In</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#"><ShoppingCartIcon/></a>
+                <a className="nav-link" ><ShoppingCartIcon/></a>
               </li>
             </ul>
           </div>

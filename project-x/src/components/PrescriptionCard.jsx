@@ -18,24 +18,23 @@ const UploadPrescription = () => {
       sx={{
         display: "flex",
         position: "absolute",
-        top: "240px", // Adjust this value for spacing from the top
+        top: "235px", // Adjust this value for spacing from the top
         left: "70%", // Move to the center
         flexDirection: "column",
         alignItems: "center",
         padding: 0,
         margin:0,
         borderRadius: "16px",
-        boxShadow: 3,
+        boxShadow: 9,
         width: "190px",
-        height: "170px",
+        height: "175px",
       }}
     >
       <CardContent>
         <Typography variant="h6" fontWeight="600" fontFamily="Poppins, sans-serif" >
           Upload Prescription 
 
-          <DescriptionIcon
-        sx={{ }}/>
+         
          
         </Typography>
        
@@ -44,7 +43,8 @@ const UploadPrescription = () => {
           variant="outlined"
           sx={{ marginTop: 0, width: "90%",height:"30%" ,color: "black",fontFamily: "Poppins, sans-serif"}}
         >
-          Order Via Prescription
+           <DescriptionIcon
+        sx={{ }}/>
         </Button>
 
         
@@ -60,7 +60,7 @@ const UploadPrescription = () => {
             variant="contained"
             component="span"
             startIcon={<CloudUploadIcon />}
-            sx={{ marginTop: 0, width: "100%" }}
+            sx={{ marginBottom: 1, marginTop: 1, width: "100%" }}
           >
             {fileName ? "Uploaded" : "Upload"}
           </Button>
@@ -68,7 +68,7 @@ const UploadPrescription = () => {
         {fileName && (
           <Typography
             variant="body2"
-            sx={{ marginTop: 2, textAlign: "center", color: "gray" }}
+            sx={{ marginTop: 0, textAlign: "center", color: "gray" }}
           >
             {fileName}
           </Typography>
