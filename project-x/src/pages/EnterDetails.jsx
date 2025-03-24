@@ -20,11 +20,33 @@ const EnterDetails = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Appointment Details:", { ...formData, selectedDate });
-    alert("Appointment Confirmed!");
+  
+    if (!selectedDate) {
+      alert("Please select a date.");
+      return;
+    }
+  
+    try {
+      const response = await fetch("http://localhost:3000/api/appointments/book", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, date: selectedDate }),
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        alert("Appointment Confirmed!");
+        console.log("Appointment Details:", data);
+      } else {
+        alert("Failed to book appointment.");
+      }
+    } catch (error) {
+      console.error("Error booking appointment:", error);
+    }
   };
+  
 
   return (
     <div className="container">
