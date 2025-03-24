@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { Container, Row, Col, Card, Button, Form, CardBody, FormGroup, FormLabel, FormControl } from 'react-bootstrap'
 import { AppBar, Toolbar, Typography,Box } from "@mui/material";
-import TrackingDetails from './TrackingDetails'; // Update the import
+import TrackingDetails from '../components/TrackingDetails'; // Update the import
 
 
 

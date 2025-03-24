@@ -6,6 +6,9 @@ import Contact from './pages/Contact'
 import Footer from "./components/Footer"
 import Store from './pages/Store'
 import AdminStore from './pages/AdminStore'
+import EnterDetails from './pages/EnterDetails'
+import SelectAppointment from './pages/SelectAppointment'
+
 
 
 export default function AppRouter() {
@@ -19,7 +22,9 @@ export default function AppRouter() {
             <Route path="/AdminFeedback" element={<AdminFeedback />} />
             <Route path="/Contact" element={<Contact />} /> 
             <Route path="/Store" element={<Store />} /> 
-            <Route path="/AdminStore" element={<AdminStore />} />
+            <Route path="/AdminStore" element={<AdminStore />} />  
+            <Route path="/EnterDetails" element={<EnterDetails />} /> 
+            <Route path="/SelectAppointment" element={<SelectAppointment />} />  
           </Routes>
         </div>
         <Footer/>
