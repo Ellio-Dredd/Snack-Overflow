@@ -1,9 +1,9 @@
 
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Link } from "react-router-dom";
-import Home from "../pages/Home";
 
-import Contact from "../pages/Contact";
+
+;
 
 
 export default function Navbar() {
@@ -30,10 +30,10 @@ export default function Navbar() {
                 <a className="nav-link active" aria-current="page" ><Link to="/">Home</Link></a>
               </li>
               <li className="nav-item">
-              <a className="nav-link" ><Link to="/Store">Store</Link></a>
+              <a className="nav-link" ><Link to="/Store">Store</Link></a>/EnterDetails
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">E-Channeling</a>
+              <a className="nav-link" ><Link to="/SelectAppointment">E-Channeling</Link></a>
               </li>
               <li className="nav-item">
                 <a className="nav-link" ><Link to="/Contact">Contact</Link></a>
