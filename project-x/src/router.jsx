@@ -4,6 +4,8 @@ import Navbar from "./components/Navbar";
 import Home from './pages/Home'
 import Contact from './pages/Contact'
 import Footer from "./components/Footer"
+import Store from './pages/Store'
+import AdminStore from './pages/AdminStore'
 
 
 export default function AppRouter() {
@@ -15,7 +17,9 @@ export default function AppRouter() {
           <Routes>
             <Route path="/" element={<Home />} />  {/* Add a default homepage */}
             <Route path="/AdminFeedback" element={<AdminFeedback />} />
-            <Route path="/Contact" element={<Contact />} />
+            <Route path="/Contact" element={<Contact />} /> 
+            <Route path="/Store" element={<Store />} /> 
+            <Route path="/AdminStore" element={<AdminStore />} />
           </Routes>
         </div>
         <Footer/>

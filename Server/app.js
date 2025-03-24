@@ -16,5 +16,12 @@ app.get("/", (req, res) => {
 const feedbackRoutes = require("./routes/feedbackRoutes");
 app.use("/api", feedbackRoutes);
 
+
+
+const StoreRoutes = require("./routes/StoreRoutes");
+app.use("/api", StoreRoutes);
+
+
+
 // Export app instance
 module.exports = app;

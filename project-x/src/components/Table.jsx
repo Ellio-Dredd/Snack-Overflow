@@ -19,7 +19,7 @@ const columns = [
   { id: "message", label: "Message", minWidth: 250 },
 ];
 
-export default function FeedbackTable() {
+export default function StoreTable() {
   const [feedbacks, setFeedbacks] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
