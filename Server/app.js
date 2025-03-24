@@ -21,6 +21,9 @@ app.use("/api", feedbackRoutes);
 const StoreRoutes = require("./routes/StoreRoutes");
 app.use("/api", StoreRoutes);
 
+//e channeling
+const appointmentRoutes = require("./routes/appointmentRoutes");
+app.use("/api/appointments", appointmentRoutes);
 
 
 // Export app instance

@@ -8,6 +8,7 @@ import Store from './pages/Store'
 import AdminStore from './pages/AdminStore'
 import EnterDetails from './pages/EnterDetails'
 import SelectAppointment from './pages/SelectAppointment'
+import AdminPanel from "./pages/AdminPanel";
 
 
 
@@ -24,7 +25,9 @@ export default function AppRouter() {
             <Route path="/Store" element={<Store />} /> 
             <Route path="/AdminStore" element={<AdminStore />} />  
             <Route path="/EnterDetails" element={<EnterDetails />} /> 
-            <Route path="/SelectAppointment" element={<SelectAppointment />} />  
+            <Route path="/SelectAppointment" element={<SelectAppointment />} /> 
+            <Route path="/AdminPanel" element={<AdminPanel />} /> 
+
           </Routes>
         </div>
         <Footer/>
