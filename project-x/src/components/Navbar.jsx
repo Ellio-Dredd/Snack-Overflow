@@ -30,7 +30,7 @@ export default function Navbar() {
                 <a className="nav-link active" aria-current="page" ><Link to="/">Home</Link></a>
               </li>
               <li className="nav-item">
-              <a className="nav-link" ><Link to="/Store">Store</Link></a>/EnterDetails
+              <a className="nav-link" ><Link to="/Store">Store</Link></a>
               </li>
               <li className="nav-item">
               <a className="nav-link" ><Link to="/SelectAppointment">E-Channeling</Link></a>

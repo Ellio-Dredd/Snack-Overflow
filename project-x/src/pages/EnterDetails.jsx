@@ -3,7 +3,7 @@ import  { useState } from "react";
 
 
 import { useLocation } from "react-router-dom";
-import "../components/styles.css"; // Import CSS
+import "../components/Styles.css"; // Import CSS
 
 const EnterDetails = () => {
   const location = useLocation();
