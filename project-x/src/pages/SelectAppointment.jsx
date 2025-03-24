@@ -1,8 +1,10 @@
+
 import  { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css"; // Import default calendar styles
 import "../components/Styles.css"; // Import custom styles
+
 
 const SelectAppointment = () => {
   const navigate = useNavigate();
@@ -10,7 +12,9 @@ const SelectAppointment = () => {
 
   const handleNext = () => {
     if (selectedDate) {
+
       navigate("/EnterDetails", { state: { selectedDate } });
+
     } else {
       alert("Please select a date.");
     }
