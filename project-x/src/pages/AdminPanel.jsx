@@ -15,7 +15,7 @@ const AdminPanel = () => {
 
   // Fetch appointments
   useEffect(() => {
-    axios.get("http://rajapaksepharmacy.azurewebsites.net/api/appointments")
+    axios.get("https://rajapaksepharmacy.azurewebsites.net/api/appointments")
       .then((res) => setAppointments(res.data))
       .catch((err) => console.error(err));
   }, []);
@@ -42,7 +42,7 @@ const AdminPanel = () => {
 
   // Update appointment
   const handleUpdate = () => {
-    axios.put(`http://rajapaksepharmacy.azurewebsites.net/api/appointments/${editId}`, editData)
+    axios.put(`https://rajapaksepharmacy.azurewebsites.net/api/appointments/${editId}`, editData)
       .then((res) => {
         setAppointments(appointments.map((item) => (item._id === editId ? res.data : item)));
         handleCloseDialog();
@@ -52,7 +52,7 @@ const AdminPanel = () => {
 
   // Delete appointment
   const handleDelete = (id) => {
-    axios.delete(`http://rajapaksepharmacy.azurewebsites.net/api/appointments/${id}`)
+    axios.delete(`https://rajapaksepharmacy.azurewebsites.net/api/appointments/${id}`)
       .then(() => setAppointments(appointments.filter((item) => item._id !== id)))
       .catch((err) => console.error(err));
   };

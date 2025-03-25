@@ -10,7 +10,7 @@ export default function Store() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://rajapaksepharmacy.azurewebsites.net/api/store"); 
+        const response = await axios.get("https://rajapaksepharmacy.azurewebsites.net/api/store"); 
         setProducts(response.data);
       } catch (error) {
         console.error("Error fetching store items:", error);

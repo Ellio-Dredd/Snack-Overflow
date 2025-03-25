@@ -27,7 +27,7 @@ export default function StoreTable() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://rajapaksepharmacy.azurewebsites.net/api/Store");
+        const response = await axios.get("https://rajapaksepharmacy.azurewebsites.net/api/Store");
         setStore(response.data);
       } catch (error) {
         console.error("Error fetching store data:", error);
