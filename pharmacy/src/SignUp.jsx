@@ -1,31 +1,32 @@
+import React from "react";
+import { TextField, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, Button, Checkbox } from "@mui/material";
+
 export default function SignUp() {
-    return(
-        <form action="">
-            <label htmlFor="Name">
-                First Name:
-                <input type="fname" /><br />
-                Last name:
-                <input type="lname" />
-            </label><br /><br />
+    return (
+        <form style={{ display: "flex", flexDirection: "column", gap: "16px", width: "300px", margin: "auto" }}>
+            <TextField label="First Name" variant="outlined" fullWidth />
+            <TextField label="Last Name" variant="outlined" fullWidth />
+            <TextField label="Email" variant="outlined" type="email" fullWidth />
 
-            <label htmlFor="Email">
-                Email: 
-                <input type="email" hint="Email"/>
-            </label><br /><br />
+            <FormControl component="fieldset">
+                <FormLabel component="legend">Choose Gender:</FormLabel>
+                <RadioGroup row>
+                    <FormControlLabel value="male" control={<Radio />} label="Male" />
+                    <FormControlLabel value="female" control={<Radio />} label="Female" />
+                </RadioGroup>
+            </FormControl>
 
-            <label htmlFor="Gender">
-                Choose Gender:
-                <input type="radio" />Male
-                <input type="radio" />Female
-            </label><br /><br />
+            <TextField label="Age" type="number" variant="outlined" inputProps={{ min: 1 }} fullWidth />
 
-            <label htmlFor="Age">
-                Enter age:
-                <input type="number" min="1"/>
-                <input type="checkbox" name="Years" value="Years"/>Years /
-                <input type="checkbox" name="" value="Months"/>Months
-            </label><br /><br />
-            <input type="submit" className="btn btn-outline-primary"/>
-    </form>
+            <FormControl>
+                <FormLabel>Age Unit:</FormLabel>
+                <FormControlLabel control={<Checkbox />} label="Years" />
+                <FormControlLabel control={<Checkbox />} label="Months" />
+            </FormControl>
+
+            <Button variant="contained" color="primary" type="submit">
+                Sign Up
+            </Button>
+        </form>
     );
 }
