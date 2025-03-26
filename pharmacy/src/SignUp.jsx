@@ -22,6 +22,7 @@ export default function SignUp() {
                 <FormLabel>Age Unit:</FormLabel>
                 <FormControlLabel control={<Checkbox />} label="Years" />
                 <FormControlLabel control={<Checkbox />} label="Months" />
+                <FormControlLabel control={<Checkbox />} label="Weeks" />
             </FormControl>
 
             <Button variant="contained" color="primary" type="submit">
