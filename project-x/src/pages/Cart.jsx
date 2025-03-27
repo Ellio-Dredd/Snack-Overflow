@@ -2,7 +2,7 @@ import { Container, List, ListItem, ListItemText, Typography, Button, Box } from
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/api/cart";
+const API_URL = "https://rajapaksepharmacy.azurewebsites.net/api/cart";
 
 export default function Cart() {
     const [cartItems, setCartItems] = useState([]);
