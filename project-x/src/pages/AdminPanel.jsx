@@ -15,7 +15,7 @@ const AdminPanel = () => {
 
   // Fetch appointments
   useEffect(() => {
-    axios.get("http://localhost:3000/api/appointments")
+    axios.get("http://rajapaksepharmacy.azurewebsites.net/api/appointments")
       .then((res) => setAppointments(res.data))
       .catch((err) => console.error(err));
   }, []);
@@ -42,7 +42,7 @@ const AdminPanel = () => {
 
   // Update appointment
   const handleUpdate = () => {
-    axios.put(`http://localhost:3000/api/appointments/${editId}`, editData)
+    axios.put(`http://rajapaksepharmacy.azurewebsites.net/api/appointments/${editId}`, editData)
       .then((res) => {
         setAppointments(appointments.map((item) => (item._id === editId ? res.data : item)));
         handleCloseDialog();
