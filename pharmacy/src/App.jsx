@@ -7,7 +7,7 @@ const App = () => {
   return (
     <div>
        <AdminNavbar/>  
-       <CredentialsSignInPage/>
+       {/* <CredentialsSignInPage/> */}
        <SignUp/>
     </div>
   );
