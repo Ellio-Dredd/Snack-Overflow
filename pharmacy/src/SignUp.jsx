@@ -1,65 +1,115 @@
 import React, { useState } from "react";
-import { TextField, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, Button, Checkbox } from "@mui/material";
+import {
+    TextField,
+    Radio,
+    RadioGroup,
+    FormControlLabel,
+    FormControl,
+    FormLabel,
+    Button,
+    Checkbox,
+    FormGroup,
+    Box
+} from "@mui/material";
+import axios from "axios";
 
 export default function SignUp() {
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    
-    const handleSubmit = (e) => {
+    const [formData, setFormData] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        gender: "",
+        age: "",
+        ageUnit: { years: false, months: false, weeks: false }
+    });
+
+    const handleChange = (e) => {
+        const { id, value } = e.target;
+        setFormData({ ...formData, [id]: value });
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Add validation logic to compare passwords
-        if (password !== confirmPassword) {
+
+        if (formData.password !== formData.confirmPassword) {
             alert("Passwords do not match!");
-        } else {
-            // Handle form submission
-            console.log("Form submitted with:", { password, confirmPassword });
+            return;
+        }
+
+        try {
+            const response = await axios.post("http://localhost:5173/api/auth/signup", {
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                email: formData.email,
+                password: formData.password,
+                gender: formData.gender,
+                age: formData.age,
+                ageUnit: formData.ageUnit
+            });
+
+            alert(response.data.message);
+            setFormData({
+                firstName: "",
+                lastName: "",
+                email: "",
+                password: "",
+                confirmPassword: "",
+                gender: "",
+                age: "",
+                ageUnit: { years: false, months: false, weeks: false }
+            });
+        } catch (error) {
+            alert(error.response?.data?.message || "Signup failed!");
         }
     };
 
     return (
-        <form style={{ display: "flex", flexDirection: "column", gap: "16px", width: "300px", margin: "auto" }} onSubmit={handleSubmit}>
-            <TextField label="First Name" id="firstname" variant="outlined" fullWidth />
-            <TextField label="Last Name" id="lastName" variant="outlined" fullWidth />
-            <TextField label="Email" id="email" variant="outlined" type="email" fullWidth />
+        <Box
+            component="form"
+            onSubmit={handleSubmit}
+            sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "16px",
+                width: "350px",
+                margin: "auto",
+                padding: "20px",
+                boxShadow: "0px 4px 10px rgba(0,0,0,0.1)",
+                borderRadius: "8px",
+                backgroundColor: "#fff"
+            }}
+        >
+            <TextField id="firstName" label="First Name" onChange={handleChange} fullWidth required />
+            <TextField id="lastName" label="Last Name" onChange={handleChange} fullWidth required />
+            <TextField id="email" label="Email" type="email" onChange={handleChange} fullWidth required />
 
-            <FormControl component="fieldset">
-                <FormLabel component="legend"  >Choose Gender:</FormLabel>
-                <RadioGroup row>
-                    <FormControlLabel value="male" id="gender" control={<Radio />} label="Male" />
-                    <FormControlLabel value="female" id="gender" control={<Radio />} label="Female" />
+            <FormControl>
+                <FormLabel>Gender</FormLabel>
+                <RadioGroup id="gender" onChange={handleChange}>
+                    <FormControlLabel value="male" control={<Radio />} label="Male" />
+                    <FormControlLabel value="female" control={<Radio />} label="Female" />
                 </RadioGroup>
             </FormControl>
 
-            <TextField label="Age" type="number" variant="outlined" inputProps={{ min: 1 }} fullWidth />
+            <TextField id="age" label="Age" type="number" onChange={handleChange} fullWidth required />
 
             <FormControl>
-                <FormLabel>Age Unit:</FormLabel>
-                <FormControlLabel control={<Checkbox />} label="Years" />
-                <FormControlLabel control={<Checkbox />} label="Months" />
-                <FormControlLabel control={<Checkbox />} label="Weeks" />
+                <FormLabel>Age Unit</FormLabel>
+                <FormGroup>
+                    <FormControlLabel control={<Checkbox />} label="Years" />
+                    <FormControlLabel control={<Checkbox />} label="Months" />
+                    <FormControlLabel control={<Checkbox />} label="Weeks" />
+                </FormGroup>
             </FormControl>
 
-            {/* Password and Confirm Password Fields */}
-            <TextField 
-                label="Password" 
-                variant="outlined" 
-                type="password" 
-                fullWidth 
-                value={password} 
-                onChange={(e) => setPassword(e.target.value)} 
-            />
-            <TextField 
-                label="Confirm Password" 
-                variant="outlined" 
-                type="password" 
-                fullWidth 
-                value={confirmPassword} 
-                onChange={(e) => setConfirmPassword(e.target.value)} 
-            />
+            <TextField id="password" label="Password" type="password" onChange={handleChange} fullWidth required />
+            <TextField id="confirmPassword" label="Confirm Password" type="password" onChange={handleChange} fullWidth required />
 
             <Button variant="contained" color="primary" type="submit">
                 Sign Up
             </Button>
-        </form>
+        </Box>
     );
 }
