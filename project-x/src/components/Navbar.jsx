@@ -49,7 +49,7 @@ export default function Navbar() {
                 <a className="nav-link" href="#">Log In</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" ><ShoppingCartIcon/></a>
+                <a className="nav-link" ><Link to="/Cart"><ShoppingCartIcon/></Link></a>
               </li>
             </ul>
           </div>

@@ -22,7 +22,7 @@ export default function FormCard() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("https://rajapaksepharmacy.azurewebsites.net/api/feedbacks", formData);
+      const response = await axios.post("http://localhost:3000/api/feedbacks", formData);
       setStatus({ type: "success", message: response.data.message });
       setFormData({ name: "", phone: "", email: "", message: "" }); // Clear form
     } catch (error) {

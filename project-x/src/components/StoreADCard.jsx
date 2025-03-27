@@ -23,7 +23,7 @@ export default function StoreADCard() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("https://rajapaksepharmacy.azurewebsites.net/api/Store", formData);
+      const response = await axios.post("http://localhost:3000/api/Store", formData);
       setStatus({ type: "success", message: response.data.message });
       setFormData({ ItemID:"",ItemName: "", ItemDes: "", ItemPrice: "", message: "" }); // Clear form
     } catch (error) {
