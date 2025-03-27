@@ -7,7 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 
   //Add to cart function 
-  const API_URL = "http://rajapaksepharmacy.azurewebsites.net/api/cart"; // Your backend cart service URL
+  const API_URL = "https://rajapaksepharmacy.azurewebsites.net/api/cart"; // Your backend cart service URL
 
 // Function to add an item to the cart
 export const addToCart = async (item) => {
@@ -28,7 +28,7 @@ export default function Store() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://rajapaksepharmacy.azurewebsites.net/api/Store"); 
+        const response = await axios.get("https://rajapaksepharmacy.azurewebsites.net/api/Store"); 
         setProducts(response.data);
       } catch (error) {
         console.error("Error fetching store items:", error);
