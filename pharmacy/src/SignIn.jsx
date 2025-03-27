@@ -8,15 +8,25 @@ const providers = [{ id: 'credentials', name: 'Email and Password' }];
 // preview-end
 
 const signIn = async (provider, formData) => {
-  const promise = new Promise((resolve) => {
-    setTimeout(() => {
-      alert(
-        `Signing in with "${provider.name}" and credentials: ${formData.get('email')}, ${formData.get('password')}`,
-      );
-      resolve();
-    }, 300);
-  });
-  return promise;
+  try {
+    const response = await fetch('/api/auth/signin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: formData.get('email'),
+        password: formData.get('password'),
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Invalid email or password');
+    }
+
+    const data = await response.json();
+    alert(`Successfully signed in as ${data.user.email}`);
+  } catch (error) {
+    alert(error.message);
+  }
 };
 
 export default function CredentialsSignInPage() {
@@ -27,7 +37,7 @@ export default function CredentialsSignInPage() {
       <SignInPage
         signIn={signIn}
         providers={providers}
-        slotProps={{ emailField: { autoFocus: false }, form: { noValidate: true } }}
+        slotProps={{ emailField: { autoFocus: true }, form: { noValidate: true } }}
       />
     </AppProvider>
     // preview-end
