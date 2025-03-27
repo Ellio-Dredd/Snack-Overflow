@@ -22,4 +22,19 @@ const getAllFeedback = async (req, res) => {
   }
 };
 
-module.exports = { submitFeedback, getAllFeedback };
+
+// Delete Feedbacks
+const deleteFeedback  = async (req, res) => {
+  try {
+    const deletedFeedback = await Feedback.findByIdAndDelete(req.params.id);
+    if (!deletedFeedback) return res.status(404).json({ message: "Feedback not found" });
+
+    res.status(200).json({ message: "Feedback deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting Feedback", error });
+  }
+};
+
+module.exports = { submitFeedback, getAllFeedback ,deleteFeedback };
+
+
