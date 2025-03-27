@@ -5,7 +5,7 @@
   "main": "Server.js",
   "scripts": {
     "start": "pm2-runtime start pm2.config.js",
-    "dev": "nodemon server.js",
+    "dev": "nodemon server.js"
   
   },
   "author": "YASAS",
