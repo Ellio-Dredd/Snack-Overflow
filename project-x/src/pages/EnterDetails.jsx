@@ -29,7 +29,7 @@ const EnterDetails = () => {
     }
   
     try {
-      const response = await fetch("http://localhost:3000/api/appointments/book", {
+      const response = await fetch("http://rajapaksepharmacy.azurewebsites.net/api/appointments/book", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...formData, date: selectedDate }),
