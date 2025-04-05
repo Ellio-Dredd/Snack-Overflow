@@ -10,6 +10,8 @@ import EnterDetails from './pages/EnterDetails'
 import SelectAppointment from './pages/SelectAppointment'
 import AdminPanel from "./pages/AdminPanel";
 import Cart from "./pages/Cart";
+import CredentialsSignInPage from "./pages/SignIn";
+import SignUp from "./pages/SignUp"
 
 
 
@@ -29,6 +31,8 @@ export default function AppRouter() {
             <Route path="/SelectAppointment" element={<SelectAppointment />} /> 
             <Route path="/AdminPanel" element={<AdminPanel />} /> 
             <Route path="/Cart" element={<Cart />} /> 
+            <Route path="/SignIn" element={<CredentialsSignInPage />} /> 
+            <Route path="/SignUp" element={<SignUp />} /> 
 
           </Routes>
         </div>
