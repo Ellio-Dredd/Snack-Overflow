@@ -9,7 +9,7 @@ const app = require("./app");
     .catch((err) => console.error(" MongoDB Connection Error:", err));
 
 // Start Server
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
