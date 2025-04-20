@@ -16,5 +16,25 @@ app.get("/", (req, res) => {
 const feedbackRoutes = require("./routes/feedbackRoutes");
 app.use("/api", feedbackRoutes);
 
+<<<<<<< Updated upstream
+=======
+
+
+const StoreRoutes = require("./routes/StoreRoutes");
+app.use("/api", StoreRoutes);
+
+//e channeling
+const appointmentRoutes = require("./routes/appointmentRoutes");
+app.use("/api/appointments", appointmentRoutes);
+
+//Cart
+const cartRoutes = require("./routes/cartRoutes");
+app.use("/api/cart", cartRoutes);
+
+//User Auth
+const authRoutes = require("./routes/authRoutes.js");
+app.use('/api/auth', authRoutes);
+
+>>>>>>> Stashed changes
 // Export app instance
 module.exports = app;
