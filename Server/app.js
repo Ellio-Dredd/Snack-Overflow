@@ -28,6 +28,8 @@ app.use("/api", feedbackRoutes);
 
 
 
+
+
 const StoreRoutes = require("./routes/StoreRoutes");
 app.use("/api", StoreRoutes);
 
@@ -35,12 +37,14 @@ app.use("/api", StoreRoutes);
 const appointmentRoutes = require("./routes/appointmentRoutes");
 app.use("/api/appointments", appointmentRoutes);
 
+
 const cartRoutes = require("./routes/cartRoutes");
 app.use("/api/cart", cartRoutes);
 
 //User Auth
 const authRoutes = require("./routes/authRoutes.js");
 app.use('/api/auth', authRoutes);
+
 
 // Export app instance
 module.exports = app;

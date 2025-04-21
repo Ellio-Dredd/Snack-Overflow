@@ -5,7 +5,10 @@ const {
     increaseQuantity,
     decreaseQuantity,
     removeItem,
-    clearCart
+
+    clearCart,
+    createDelivery
+
 } = require("../controllers/cartController");
 
 const router = express.Router();
@@ -16,5 +19,10 @@ router.put("/increase/:id", increaseQuantity);
 router.put("/decrease/:id", decreaseQuantity);
 router.delete("/:id", removeItem);
 router.delete("/", clearCart);
+
+
+// Add a route for checkout (create delivery)
+router.post("/checkout", createDelivery);
+
 
 module.exports = router;
