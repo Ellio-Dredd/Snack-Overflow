@@ -1,5 +1,7 @@
 const CartItem = require("../models/CartItem");
+
 const Deliver = require("../models/Deliver");  // Assuming you have created the Deliver model for orders
+
 
 // Get all cart items
 exports.getCartItems = async (req, res) => {
@@ -10,6 +12,7 @@ exports.getCartItems = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 // Add item to cart
 exports.addToCart = async (req, res) => {
@@ -33,6 +36,7 @@ exports.addToCart = async (req, res) => {
         res.status(500).json({ error: "Failed to add item to cart." });
     }
 };
+
 
 // Increase item quantity
 exports.increaseQuantity = async (req, res) => {
@@ -89,6 +93,7 @@ exports.clearCart = async (req, res) => {
     }
 };
 
+
 // Create a new delivery order
 exports.createDelivery = async (req, res) => {
     const { userId, items, total } = req.body;
@@ -105,3 +110,5 @@ exports.createDelivery = async (req, res) => {
         res.status(500).json({ message: "Error saving delivery", error });
     }
 };
+
+

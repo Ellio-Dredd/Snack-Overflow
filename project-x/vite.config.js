@@ -8,4 +8,11 @@ export default defineConfig({
       '@mui/styled-engine': '@mui/styled-engine-sc',
     },
   },
+  server: {
+    proxy: {
+      '/api': 'http://localhost:3000', //  backend port
+    },
+  },
+
+  
 });

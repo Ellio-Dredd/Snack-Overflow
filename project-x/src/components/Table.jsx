@@ -8,6 +8,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Button
 } from "@mui/material";
 
 import axios from "axios";
@@ -19,7 +20,10 @@ const columns = [
   { id: "message", label: "Message", minWidth: 250 },
 ];
 
-export default function FeedbackTable() {
+
+
+
+export default function StoreTable() {
   const [feedbacks, setFeedbacks] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -36,6 +40,21 @@ export default function FeedbackTable() {
     };
     fetchFeedbacks();
   }, []);
+
+
+  
+  // Delete Feedbacks
+  const handleDelete = (id) => {
+    axios
+      .delete(`http://localhost:3000/api/feedbacks/${id}`)
+      .then(() => {
+        setFeedbacks((prevFeedbacks) =>
+          prevFeedbacks.filter((item) => item._id !== id)
+        );
+      })
+      .catch((err) => console.error(err));
+  };
+
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -65,6 +84,14 @@ export default function FeedbackTable() {
                 {columns.map((column) => (
                   <TableCell key={column.id}>{feedback[column.id]}</TableCell>
                 ))}
+
+
+
+                  <TableCell>
+                  {/* Delete button */}
+                  <Button onClick={() => handleDelete(feedback._id)} color="error" variant="contained">Delete</Button>
+                  </TableCell>
+                
               </TableRow>
             ))}
           </TableBody>
@@ -82,3 +109,5 @@ export default function FeedbackTable() {
     </Paper>
   );
 }
+
+

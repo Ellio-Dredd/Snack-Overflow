@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Card, CardBody } from 'react-bootstrap';
 import { Typography } from '@mui/material';
 
@@ -19,3 +19,4 @@ export default function TrackingDetails({ trackingInfo }) {
     </div>
   );
 }
+
