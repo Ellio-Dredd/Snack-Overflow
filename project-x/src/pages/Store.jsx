@@ -13,7 +13,7 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 // Add to cart function 
-const API_URL = "http://rajapaksepharmacy.azurewebsites.net/api/cart"; 
+const API_URL = "https://rajapaksepharmacy.azurewebsites.net/api/cart"; 
 // Your backend cart service URL
 
 export const addToCart = async (item) => {
@@ -37,7 +37,7 @@ export default function Store() {
       }
 
       try {
-        const response = await axios.get("http://rajapaksepharmacy.azurewebsites.net/api/Store", {
+        const response = await axios.get("https://rajapaksepharmacy.azurewebsites.net/api/Store", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
