@@ -32,7 +32,7 @@ export default function StoreTable() {
   useEffect(() => {
     const fetchFeedbacks = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/feedbacks");
+        const response = await axios.get("http://rajapaksepharmacy.azurewebsites.net/api/feedbacks");
         setFeedbacks(response.data);
       } catch (error) {
         console.error("Error fetching feedbacks:", error);
