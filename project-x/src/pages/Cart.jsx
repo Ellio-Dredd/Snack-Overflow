@@ -2,7 +2,7 @@ import { Container, List, ListItem, ListItemText, Typography, Button, Box } from
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const API_URL = "http://rajapaksepharmacy.azurewebsites.net/api/cart";
+const API_URL = "https://rajapaksepharmacy.azurewebsites.net/api/cart";
 
 export default function Cart() {
     const [cartItems, setCartItems] = useState([]);
@@ -60,11 +60,11 @@ export default function Cart() {
                 total,
             };
 
-            await axios.post("http://rajapaksepharmacy.azurewebsites.net/api/cart/checkout", payload);
+            await axios.post("https://rajapaksepharmacy.azurewebsites.net/api/cart/checkout", payload);
             alert("Order placed successfully!");
 
             setCartItems([]);
-            await axios.delete("http://rajapaksepharmacy.azurewebsites.net/api/cart"); // Clear cart in DB
+            await axios.delete("https://rajapaksepharmacy.azurewebsites.net/api/cart"); // Clear cart in DB
         } catch (error) {
             console.error("Checkout failed:", error);
             alert("Checkout failed!");
