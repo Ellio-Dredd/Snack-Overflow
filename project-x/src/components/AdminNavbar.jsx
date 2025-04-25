@@ -1,14 +1,7 @@
-
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { Link } from "react-router-dom";
 
-
-;
-
-
-export default function Navbar() {
+export default function AdminNavbar() {
     return (
-      
       <nav className="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
         <div className="container-fluid">
           <a className="navbar-brand" href="#">Pharmacy</a>
@@ -27,37 +20,36 @@ export default function Navbar() {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" ><Link to="/">Home</Link></a>
+                <a className="nav-link active" aria-current="page" href="#">Home</a>
               </li>
               <li className="nav-item">
-              <a className="nav-link" ><Link to="/Store">Store</Link></a>
+                <a className="nav-link" href="#">manage products</a>
               </li>
               <li className="nav-item">
-              <a className="nav-link" ><Link to="/SelectAppointment">E-Channeling</Link></a>
+                <a className="nav-link" href="#">E-Channeling</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" ><Link to="/Contact">Contact</Link></a>
+                <a className="nav-link" href="#">Prescription orders</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">orders</a>
               </li>
             </ul>
   
             {/* Right-Aligned Items */}
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                <a className="nav-link"><Link to="/SignIn">Log In</Link></a>
+                <a className="nav-link" href="#">Sign In</a>
               </li>
               <li className="nav-item">
-                 <a className="nav-link"><Link to="SignUp">Sign Up</Link></a>
+                <a className="nav-link" href="#">Sign Up</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" ><Link to="/Cart"><ShoppingCartIcon/></Link></a>
+                <a className="nav-link" href="#"><ShoppingCartIcon/></a>
               </li>
             </ul>
           </div>
         </div>
       </nav>
-
-
-
-     
     );
   }
