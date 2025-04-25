@@ -45,7 +45,7 @@ export default function SignUp() {
         }
 
         try {
-            const response = await axios.post("http://rajapaksepharmacy.azurewebsites.net/api/auth/signup", {
+            const response = await axios.post("https://rajapaksepharmacy.azurewebsites.net/api/auth/signup", {
                 firstName: formData.firstName,
                 lastName: formData.lastName,
                 email: formData.email,
