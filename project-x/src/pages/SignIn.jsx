@@ -15,7 +15,7 @@ const signIn = async (provider, formData) => {
       throw new Error('Invalid email format');
     }
 
-    const response = await fetch('http://localhost:3000/api/auth/signin', {
+    const response = await fetch('http://rajapaksepharmacy.azurewebsites.net/api/auth/signin', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
