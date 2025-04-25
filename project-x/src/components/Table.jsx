@@ -32,7 +32,7 @@ export default function StoreTable() {
   useEffect(() => {
     const fetchFeedbacks = async () => {
       try {
-        const response = await axios.get("http://rajapaksepharmacy.azurewebsites.net/api/feedbacks");
+        const response = await axios.get("https://rajapaksepharmacy.azurewebsites.net/api/feedbacks");
         setFeedbacks(response.data);
       } catch (error) {
         console.error("Error fetching feedbacks:", error);
@@ -46,7 +46,7 @@ export default function StoreTable() {
   // Delete Feedbacks
   const handleDelete = (id) => {
     axios
-      .delete(`http://localhost:3000/api/feedbacks/${id}`)
+      .delete(`https://rajapaksepharmacy.azurewebsites.net/api/feedbacks/${id}`)
       .then(() => {
         setFeedbacks((prevFeedbacks) =>
           prevFeedbacks.filter((item) => item._id !== id)
