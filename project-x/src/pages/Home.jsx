@@ -1,12 +1,15 @@
 import CoverImage from "../components/CoverImage";
 import CareTypeCard from "../components/CareTypeCard";
 import Box from '@mui/material/Box';
+import Navbar from "../components/Navbar";
 
 
 
 export default function Home() {
     return (
+      
       <div style={{backgroundColor :"white"}} >
+       
         <CoverImage/>
         
        <br></br>

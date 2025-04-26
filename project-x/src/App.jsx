@@ -8,9 +8,11 @@ import './App.css';
 
 
 
+
 const App = () => {
   return (
     <div style={{ width: "100%", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+      
     <AppRouter />
   </div>
 );
