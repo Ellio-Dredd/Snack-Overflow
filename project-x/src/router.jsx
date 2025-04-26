@@ -20,6 +20,7 @@ export default function AppRouter() {
    
       <div className="container-fluid p-0 w-100">
         <Navbar />
+        
         <div className="w-100">
           <Routes>
             <Route path="/" element={<Home />} />  {/* Add a default homepage */}

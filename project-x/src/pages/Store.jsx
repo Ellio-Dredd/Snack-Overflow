@@ -12,6 +12,7 @@ import {
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+
 // Add to cart function 
 const API_URL = "http://localhost:3000/api/cart"; 
 // Your backend cart service URL
@@ -75,15 +76,20 @@ export default function Store() {
   };
 
   return (
+    
+    
     <div
+    
+    
       style={{
         minHeight: "100vh",
         background: "linear-gradient(to right, #c2e9fb, #a1c4fd)",
-        paddingTop: "40px",
+        paddingTop: "0px",
         paddingBottom: "40px",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
       }}
     >
+      
       <Container>
         <Typography
           variant="h3"
@@ -94,6 +100,7 @@ export default function Store() {
             color: "#2a2a2a",
             fontFamily: "'Poppins', sans-serif",
             marginBottom: "40px",
+            marginTop: "30px",
           }}
         >
           Pharmacy Store

@@ -12,8 +12,11 @@ import {
     Box
 } from "@mui/material";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 export default function SignUp() {
+    const navigate = useNavigate(); // Move useNavigate here!
+
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
@@ -26,15 +29,14 @@ export default function SignUp() {
     });
 
     const handleChange = (e) => {
-        const { id, name, value, type } = e.target;
+        const { id, name, value } = e.target;
         const key = id || name;
-      
+
         setFormData((prev) => ({
-          ...prev,
-          [key]: value
+            ...prev,
+            [key]: value
         }));
-      };
-      
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -56,6 +58,8 @@ export default function SignUp() {
             });
 
             alert(response.data.message);
+
+            // Reset form
             setFormData({
                 firstName: "",
                 lastName: "",
@@ -66,6 +70,9 @@ export default function SignUp() {
                 age: "",
                 ageUnit: { years: false, months: false, weeks: false }
             });
+
+            // ✅ Redirect to login page or home after successful signup
+            navigate('/SignIn');
         } catch (error) {
             alert(error.response?.data?.message || "Signup failed!");
         }
