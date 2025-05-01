@@ -12,8 +12,16 @@ import {Container,Typography,Card,CardMedia,CardContent,Button,Box,Divider} from
     }, []);
   
     const fetchCartItems = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+    
       try {
-        const response = await axios.get(API_URL);
+        const userResponse = await axios.get("http://localhost:3000/api/auth/user", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+    
+        const userID = userResponse.data._id;
+        const response = await axios.get(`${API_URL}?userID=${userID}`);
         setCartItems(response.data);
       } catch (error) {
         console.error("Error fetching cart items:", error);
@@ -22,7 +30,7 @@ import {Container,Typography,Card,CardMedia,CardContent,Button,Box,Divider} from
   
     const increaseQuantity = async (id) => {
       await axios.put(`${API_URL}/increase/${id}`);
-      fetchCartItems();
+      fetchCartItems(); 
     };
   
     const decreaseQuantity = async (id) => {

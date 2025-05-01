@@ -80,3 +80,15 @@ export const signIn = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+export const user = async (req, res) => {
+  try {
+    // req.user will be populated by the authMiddleware with the authenticated user's data
+    const user = await User.findById(req.user.userId).select('-password'); // Exclude password for security
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+  
+};
