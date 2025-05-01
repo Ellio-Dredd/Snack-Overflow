@@ -69,6 +69,7 @@ export default function Store() {
       productId: product.ItemID,
       name: product.ItemName,
       price: product.ItemPrice,
+      image: product.message,
       quantity: 1,
     };
 
