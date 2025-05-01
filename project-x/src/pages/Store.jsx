@@ -84,7 +84,7 @@ export default function Store() {
       style={{
         minHeight: "100vh",
         background: "linear-gradient(to right, #c2e9fb, #a1c4fd)",
-        paddingTop: "0px",
+        paddingTop: "10px",
         paddingBottom: "40px",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
       }}
