@@ -1,24 +1,24 @@
-import { useContext } from 'react';
-import { AppProvider } from '@toolpad/core/AppProvider';
-import { SignInPage } from '@toolpad/core/SignInPage';
+import React, { useContext, useState } from 'react';
+import {Container,TextField,Button,Typography,Paper,Box} from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { UserContext } from '../UserContext'; // Correct path if UserContext is in src/
-
-const providers = [{ id: 'credentials', name: 'Email and Password' }];
+import { UserContext } from '../UserContext';
 
 export default function SignIn() {
   const theme = useTheme();
-  const { login } = useContext(UserContext); // <-- get login function from context
+  const { login } = useContext(UserContext);
 
-  const signIn = async (provider, formData) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+
+    if (!isValidEmail(email)) {
+      alert('Invalid email format');
+      return;
+    }
+
     try {
-      const email = formData.get('email');
-      const password = formData.get('password');
-
-      if (!isValidEmail(email)) {
-        throw new Error('Invalid email format');
-      }
-
       const response = await fetch('http://localhost:3000/api/auth/signin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -32,9 +32,9 @@ export default function SignIn() {
       const data = await response.json();
 
       if (data.token) {
-        login(data.user, data.token); // <-- Use context to store user and token
+        login(data.user, data.token);
         alert(`Successfully signed in as ${data.user.email}`);
-        window.location.href = '/'; // Redirect to homepage
+        window.location.href = '/';
       } else {
         throw new Error('Token not received');
       }
@@ -43,22 +43,94 @@ export default function SignIn() {
     }
   };
 
-  // Helper function to validate email
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
   return (
-    <AppProvider theme={theme}>
-      <SignInPage
-        signIn={signIn}
-        providers={providers}
-        slotProps={{
-          emailField: { autoFocus: true, type: 'email' },
-          form: { noValidate: true },
+    <Box
+      sx={{
+        minHeight: '100vh',
+        background: 'linear-gradient(to right, #c2e9fb, #a1c4fd)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+      }}
+    >
+      <Paper
+        elevation={6}
+        sx={{
+          padding: 4,
+          borderRadius: '20px',
+          maxWidth: 400,
+          width: '100%',
+          backgroundColor: 'white',
+          boxShadow: '0 6px 20px rgba(0,0,0,0.1)',
         }}
-      />
-    </AppProvider>
+      >
+        <Typography
+          variant="h4"
+          gutterBottom
+          align="center"
+          sx={{
+            fontWeight: 'bold',
+            color: '#2a2a2a',
+            fontFamily: "'Poppins', sans-serif",
+            mb: 3,
+          }}
+        >
+          Sign In
+        </Typography>
+
+        <form onSubmit={handleSignIn} noValidate>
+          <TextField
+            label="Email"
+            type="email"
+            fullWidth
+            required
+            variant="outlined"
+            margin="normal"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextField
+            label="Password"
+            type="password"
+            fullWidth
+            required
+            variant="outlined"
+            margin="normal"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            sx={{
+              mt: 2,
+              borderRadius: '30px',
+              textTransform: 'none',
+              fontWeight: 'bold',
+              padding: 1,
+            }}
+          >
+            Sign In
+          </Button>
+          <Typography
+            variant="body2"
+            align="center"
+            sx={{ mt: 2, color: '#555' }}>
+            Don't have an account?{' '}
+            <a href="/signup" style={{ textDecoration: 'none', color: theme.palette.primary.main }}>
+              Sign Up
+              </a>
+            </Typography>
+        </form>
+      </Paper>
+    </Box>
   );
 }

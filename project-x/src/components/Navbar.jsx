@@ -1,95 +1,137 @@
 import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AppBar, Toolbar, IconButton, Typography, Menu, MenuItem, Avatar, Box, Button, Tooltip, Drawer, List, ListItem, ListItemText } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { UserContext } from "../UserContext";
-import { Link } from "react-router-dom";
-import Avatar from '@mui/material/Avatar';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+
 
 export default function Navbar() {
   const { user, logout } = useContext(UserContext);
-  const [showMenu, setShowMenu] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const getInitials = (name) => {
-    if (!name) return "";
-    const parts = name.split(" ");
-    const firstName = parts[0] || "";
-    const lastName = parts[1] || "";
-    return `${firstName[0] || ""}${lastName[0] || ""}`.toUpperCase();
+  const toggleDrawer = (open) => () => {
+    setDrawerOpen(open);
   };
 
-  const toggleMenu = () => {
-    setShowMenu(!showMenu);
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
   };
 
   const handleLogout = () => {
     logout();
-    setShowMenu(false);
+    setAnchorEl(null);
+    navigate("/");
   };
 
+  const getInitials = (name) => {
+    if (!name) return "";
+    const parts = name.trim().split(" ");
+    return `${parts[0]?.[0] || ""}${parts[1]?.[0] || ""}`.toUpperCase();
+  };
+
+  const navItems = [
+    { label: "Home", to: "/" },
+    { label: "Store", to: "/Store" },
+    { label: "E-Channeling", to: "/SelectAppointment" },
+    { label: "Contact", to: "/Contact" },
+  ];
+
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
-      <div className="container-fluid">
-        <Link className="navbar-brand" to="/">Pharmacy</Link>
+    <>
+      <AppBar position="static" color="primary" elevation={4}>
+        <Toolbar sx={{ justifyContent: "space-between" }}>
+          
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <IconButton color="inherit" edge="start" onClick={toggleDrawer(true)} sx={{ mr: 2, display: { md: "none" } }}>
+              <MenuIcon />
+            </IconButton>
+            <image src="/Plogo.jpg" alt="Logo" style={{ width: "50px", height: "50px", marginRight: "10px" }} />
+            <Typography variant="h6" sx={{ 
+              textDecoration: "none", 
+              color: "inherit", 
+              fontWeight: "bold",
+              fontFamily: "Poppins, sans-serif",
+              }}>
+              Rajapakse Pharmacy
+            </Typography>
+          </Box>
 
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
+          {/* Center - Nav Links */}
+          <Box sx={{ 
+            display: { xs: "none", md: "flex" }, 
+            gap: 3,
+            marginRight: "175px",
+            }}>
+            {navItems.map((item) => (
+              <Button
+              key={item.label}
+              component={Link}
+              to={item.to}
+              color="inherit"
+              sx={{
+                textTransform: "none",
+                fontFamily: "Poppins, sans-serif",
+                fontSize: "16px",
+                fontWeight: 500,
+                '&:hover': {
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)', 
+                  color: '#ffffff', 
+                  borderRadius: "35px",
+                }
+              }}
+            >
+              {item.label}
+            </Button>
+            ))}
+          </Box>
 
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav">
-            <li className="nav-item">
-              <Link className="nav-link active" to="/">Home</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/Store">Store</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/SelectAppointment">E-Channeling</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/Contact">Contact</Link>
-            </li>
-          </ul>
-
-          {/* Right side */}
-          <ul className="navbar-nav ms-auto">
+          {/* Right - Auth + Cart */}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             {user ? (
-              <li className="nav-item dropdown">
-                <div onClick={toggleMenu} style={{ cursor: "pointer" }}>
-                  <Avatar>{getInitials(user.name)}</Avatar>
-                </div>
-                {showMenu && (
-                  <div className="dropdown-menu show" style={{ position: "absolute", right: 0 }}>
-                    <button className="dropdown-item" onClick={handleLogout}>Logout</button>
-                  </div>
-                )}
-              </li>
+              <>
+                <Tooltip title={user.name}>
+                  <IconButton onClick={handleMenu} sx={{ p: 0 }}>
+                    <Avatar sx={{ bgcolor: "#ffffff", color: "primary.main" }}>
+                      {getInitials(user.name)}
+                    </Avatar>
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={() => setAnchorEl(null)}
+                >
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                </Menu>
+              </>
             ) : (
               <>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/SignIn">Log In</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/SignUp">Sign Up</Link>
-                </li>
+                <Button component={Link} to="/SignIn" color="inherit">Log In</Button>
+                <Button component={Link} to="/SignUp" variant="outlined" color="inherit">Sign Up</Button>
               </>
             )}
+            <IconButton component={Link} to="/Cart" color="inherit">
+              <ShoppingCartIcon />
+            </IconButton>
+          </Box>
+        </Toolbar>
+      </AppBar>
 
-            <li className="nav-item">
-              <Link className="nav-link" to="/Cart">
-                <ShoppingCartIcon />
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+      {/* Mobile Drawer */}
+      <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
+        <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
+          <List>
+            {navItems.map((item) => (
+              <ListItem button key={item.label} component={Link} to={item.to}>
+                <ListItemText primary={item.label} />
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+      </Drawer>
+    </>
   );
 }

@@ -122,6 +122,7 @@ import {Container,Typography,Card,CardMedia,CardContent,Button,Box,Divider} from
                     <Box
                       display="flex"
                       alignItems="center"
+                      marginLeft="348px"
                       mt={2}
                     >
                       <Button
@@ -158,9 +159,19 @@ import {Container,Typography,Card,CardMedia,CardContent,Button,Box,Divider} from
           {cartItems.length > 0 && (
             <Box textAlign="right" mt={4}>
               <Divider />
-              <Typography variant="h5" sx={{ mt: 2, fontWeight: "bold" }}>
-                Total: Rs. {totalPrice}
+              <Typography
+                variant="h5"
+                sx={{
+                  mt: 2,
+                  fontWeight: "600",
+                  fontFamily: "'Poppins', sans-serif",
+                  textAlign: "right",
+                  ml: 1,
+                  color: "#333",
+                }}  >
+                Total: Rs. {totalPrice}/=
               </Typography>
+
               <Button
                 variant="contained"
                 color="primary"

@@ -33,7 +33,8 @@ export default function Store() {
     const fetchProductsAndUser = async () => {
       const token = localStorage.getItem("token");
       if (!token) {
-        alert("No token found");
+        alert("Sign in to view store items.");
+        window.location.href = "/signin"; // Redirect to sign-in page
         return;
       }
 
@@ -75,6 +76,7 @@ export default function Store() {
 
   const handleAddToCart = (product) => {
     const token = localStorage.getItem("token");
+    alert("Item added sucessfully.");
     if (!token) {
       alert("You must be logged in to add items to the cart.");
       return;
