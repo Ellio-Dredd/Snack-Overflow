@@ -1,0 +1,70 @@
+/* CalendarFix.css */
+
+.react-calendar {
+  width: 100%;
+  max-width: 100%;
+  background: white;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 10px;
+}
+
+.react-calendar__navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.react-calendar__navigation button {
+  background: transparent;
+  border: none;
+  color: #333;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.react-calendar__month-view__weekdays {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+  padding: 0.5rem 0;
+}
+
+.react-calendar__tile {
+  padding: 10px 6.6667px;
+  background: none;
+  text-align: center;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  transition: background 0.2s ease;
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+  background: #e0f0ff;
+  cursor: pointer;
+}
+
+.react-calendar__tile--now {
+  background: #cce5ff;
+  font-weight: bold;
+}
+
+.react-calendar__tile--active {
+  background: #1976d2;
+  color: white;
+  font-weight: bold;
+}
+
+.react-calendar__month-view__days__day--weekend {
+  color: #d32f2f;
+}

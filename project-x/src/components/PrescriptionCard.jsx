@@ -18,8 +18,8 @@ const UploadPrescription = () => {
       sx={{
         display: "flex",
         position: "absolute",
-        top: "235px", // Adjust this value for spacing from the top
-        left: "70%", // Move to the center
+        top: "235px",
+        left: "70%", 
         flexDirection: "column",
         alignItems: "center",
         padding: 0,
