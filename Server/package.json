@@ -20,7 +20,8 @@
     "express-session": "^1.18.1",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.15.0",
-    "mongoose": "^8.12.2"
+    "mongoose": "^8.12.2",
+    "sentiment": "^5.0.2"
   },
   "devDependencies": {
     "jest": "^29.7.0",
