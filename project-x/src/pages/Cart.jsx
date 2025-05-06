@@ -59,8 +59,12 @@ import {Container,Typography,Card,CardMedia,CardContent,Button,Box,Divider} from
         });
         const userId = userResponse.data._id;
     
+
+       
+        // Create a delivery record
         await axios.post("http://localhost:3000/api/delivery", {
-          orderId: userId,
+          orderId: userId, //  1:1 user-order relation
+
           deliveryPerson: "Assigned Soon",
           deliveryAddress: "From user profile or prompt",
           estimatedDeliveryTime: new Date(Date.now() + 2 * 60 * 60 * 1000),
@@ -70,6 +74,7 @@ import {Container,Typography,Card,CardMedia,CardContent,Button,Box,Divider} from
         setCartItems([]);
         await axios.delete("http://localhost:3000/api/cart");
     
+
         // ✅ Pass items and total
         navigate("/OrderConfirmation", {
           state: {
@@ -78,6 +83,7 @@ import {Container,Typography,Card,CardMedia,CardContent,Button,Box,Divider} from
             trackingNo: userId
           }
         });
+
     
       } catch (error) {
         console.error("Checkout failed:", error);
