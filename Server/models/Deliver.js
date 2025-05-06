@@ -1,18 +1,12 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const deliverSchema = new mongoose.Schema({
-    userId: { type: String, required: true },
-    items: [
-        {
-            productId: Number,
-            name: String,
-            price: Number,
-            quantity: Number,
-            
-        },
-    ],
-    total: Number,
-    date: { type: Date, default: Date.now },
-});
+const deliverySchema = new mongoose.Schema({
+  orderId: { type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: true },
+  deliveryPerson: { type: String, required: true },
+  status: { type: String, enum: ['pending', 'in_transit', 'delivered'], default: 'pending' },
+  deliveryAddress: { type: String, required: true },
+  estimatedDeliveryTime: { type: Date },
+  actualDeliveryTime: { type: Date },
+}, { timestamps: true });
 
-module.exports = mongoose.model("Deliver", deliverSchema);
+module.exports = mongoose.model('Deliver', deliverySchema);
