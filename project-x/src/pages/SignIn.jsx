@@ -1,10 +1,12 @@
-import React, { useContext, useState } from 'react';
-import {Container,TextField,Button,Typography,Paper,Box} from '@mui/material';
+import { useContext, useState } from 'react';
+import { TextField, Button, Typography, Paper, Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';  // Import useNavigate for navigation
 import { UserContext } from '../UserContext';
 
 export default function SignIn() {
   const theme = useTheme();
+  const navigate = useNavigate();  // Initialize navigate hook for navigation
   const { login } = useContext(UserContext);
 
   const [email, setEmail] = useState('');
@@ -30,11 +32,18 @@ export default function SignIn() {
       }
 
       const data = await response.json();
+      console.log("Logged in user data:", data.user);
 
       if (data.token) {
         login(data.user, data.token);
         alert(`Successfully signed in as ${data.user.email}`);
-        window.location.href = '/';
+        
+        // Use navigate for routing
+        if (data.user.isAdmin) {
+          navigate('/admin/dashboard');  // Redirect to admin dashboard for admin users
+        } else {
+          navigate('/');  // Normal user route
+        }
       } else {
         throw new Error('Token not received');
       }
@@ -123,12 +132,16 @@ export default function SignIn() {
           <Typography
             variant="body2"
             align="center"
-            sx={{ mt: 2, color: '#555' }}>
+            sx={{ mt: 2, color: '#555' }}
+          >
             Don't have an account?{' '}
-            <a href="/signup" style={{ textDecoration: 'none', color: theme.palette.primary.main }}>
+            <a
+              href="/signup"
+              style={{ textDecoration: 'none', color: theme.palette.primary.main }}
+            >
               Sign Up
-              </a>
-            </Typography>
+            </a>
+          </Typography>
         </form>
       </Paper>
     </Box>
