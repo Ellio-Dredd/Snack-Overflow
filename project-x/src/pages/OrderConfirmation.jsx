@@ -2,7 +2,6 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable"; // This is the correct import
-
 import { Container, Typography, Button, Box } from "@mui/material";
 
 export default function OrderConfirmation() {
