@@ -56,14 +56,14 @@ import {Container,Typography,Card,CardMedia,CardContent,Button,Box,Divider} from
         });
         const userId = userResponse.data._id;
     
-        const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-        const payload = {
-          userId,
-          items: cartItems,
-          total,
-        };
+        // const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        // const payload = {
+        //   userId,
+        //   items: cartItems,
+        //   total,
+        // };
     
-        await axios.post("http://localhost:3000/api/cart/checkout", payload);
+        // await axios.post("http://localhost:3000/api/cart/checkout", payload);
     
         // Create a delivery record
         await axios.post("http://localhost:3000/api/delivery", {
