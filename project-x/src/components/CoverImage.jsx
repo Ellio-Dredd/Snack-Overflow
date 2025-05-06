@@ -9,12 +9,13 @@ const CoverImage = () => {
       <Box
         sx={{
           backgroundImage: `url('https://cdn.discordapp.com/attachments/1162085898494693392/1368981876835876994/abstract-blur-shopping-mall.jpg?ex=681a3339&is=6818e1b9&hm=e17de01410f14365d1217e305c1b5fe11c4fed77c724c7a5f21a21124a7d21f6&')`,
+          marginTop: "-40px",
           backgroundSize: "cover",
           position: "relative",
           backgroundPosition: "center",
           top: 0,
           width: "100%",
-          height: "90vh",
+          height: "80vh",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -31,12 +32,12 @@ const CoverImage = () => {
             left: "50%", // Move to the center
             fontSize: "170px" ,
             // transform: "translateX(-50%)", // Perfectly center the text
-            color: "#1976d2",// Adjust for visibility
+            color: "black",// Adjust for visibility
             WebkitTextStroke: "5px #bce4fc", // Text stroke for better visibility
-            // fontWeight: "bold",
+            fontWeight: "bold",
             // zIndex: 0, // Text behind the image
             fontFamily: "'Poppins', sans-serif",
-            fontWeight: 400,
+            // fontWeight: 400,
 
           }}
         >

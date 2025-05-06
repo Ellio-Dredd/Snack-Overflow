@@ -11,10 +11,9 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useNavigate } from "react-router-dom";
 
-// Add to cart function
 const API_URL = "http://localhost:3000/api/cart";
-// Your backend cart service URL
 
 export const addToCart = async (item) => {
   try {
@@ -27,23 +26,21 @@ export const addToCart = async (item) => {
 
 export default function Store() {
   const [products, setProducts] = useState([]);
-  const [user, setUser] = useState(null); // State to store user information
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProductsAndUser = async () => {
       const token = localStorage.getItem("token");
       if (!token) {
         alert("Sign in to view store items.");
-        window.location.href = "/signin"; // Redirect to sign-in page
+        window.location.href = "/signin";
         return;
       }
 
       try {
-        // Fetch products
         const productsResponse = await axios.get("http://localhost:3000/api/Store", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
 
         if (productsResponse.status === 200) {
@@ -52,18 +49,14 @@ export default function Store() {
           alert(productsResponse.data.message);
         }
 
-        // Fetch user information
-        const userResponse = await axios.get("http://localhost:3000/api/auth/user", { // Replace with your actual user info endpoint
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+        const userResponse = await axios.get("http://localhost:3000/api/auth/user", {
+          headers: { Authorization: `Bearer ${token}` },
         });
 
         if (userResponse.status === 200) {
           setUser(userResponse.data);
         } else {
           console.error("Error fetching user:", userResponse.data.message);
-          // Optionally handle error, e.g., redirect to login
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -76,7 +69,7 @@ export default function Store() {
 
   const handleAddToCart = (product) => {
     const token = localStorage.getItem("token");
-    alert("Item added sucessfully.");
+    alert("Item added successfully.");
     if (!token) {
       alert("You must be logged in to add items to the cart.");
       return;
@@ -92,11 +85,56 @@ export default function Store() {
       name: product.ItemName,
       price: product.ItemPrice,
       image: product.message,
-      userID: user._id, // Use the fetched user ID
+      userID: user._id,
       quantity: 1,
     };
 
     addToCart(item);
+  };
+
+  const handleBuyNow = async (product) => {
+    const token = localStorage.getItem("token");
+    alert("Item added successfully.");
+    if (!token) {
+      alert("Please sign in to continue.");
+      return;
+    }
+
+    if (!user) {
+      alert("User not loaded yet. Try again.");
+      return;
+    }
+
+    const item = {
+      name: product.ItemName,
+      price: product.ItemPrice,
+      quantity: 1,
+      image: product.message,
+    };
+
+    const total = item.price * item.quantity;
+
+    try {
+      await axios.post("http://localhost:3000/api/delivery", {
+        orderId: user._id,
+        deliveryPerson: "Assigned Soon",
+        deliveryAddress: "Address from user profile or form",
+        estimatedDeliveryTime: new Date(Date.now() + 2 * 60 * 60 * 1000),
+        items: [item],
+        total: total,
+      });
+
+      navigate("/OrderConfirmation", {
+        state: {
+          trackingNo: user._id,
+          items: [item],
+          total: total,
+        },
+      });
+    } catch (error) {
+      console.error("Error placing order:", error);
+      alert("Order placement failed.");
+    }
   };
 
   return (
@@ -142,7 +180,10 @@ export default function Store() {
                   height="220"
                   image={product.message || "https://via.placeholder.com/150"}
                   alt={product.ItemName}
-                  style={{ borderTopLeftRadius: "20px", borderTopRightRadius: "20px" }}
+                  style={{
+                    borderTopLeftRadius: "20px",
+                    borderTopRightRadius: "20px",
+                  }}
                 />
                 <CardContent>
                   <Typography variant="h6" sx={{ fontWeight: 600 }}>
@@ -167,6 +208,7 @@ export default function Store() {
                     <Button
                       variant="outlined"
                       color="primary"
+                      onClick={() => handleBuyNow(product)}
                       sx={{
                         borderRadius: "30px",
                         textTransform: "none",

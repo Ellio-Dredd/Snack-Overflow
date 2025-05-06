@@ -49,7 +49,7 @@ export default function Navbar() {
             <IconButton color="inherit" edge="start" onClick={toggleDrawer(true)} sx={{ mr: 2, display: { md: "none" } }}>
               <MenuIcon />
             </IconButton>
-            <image src="/Plogo.jpg" alt="Logo" style={{ width: "50px", height: "50px", marginRight: "10px" }} />
+            <image src="/Plogo.png" alt="Logo" style={{ width: "50px", height: "50px", marginRight: "10px" }} />
             <Typography variant="h6" sx={{ 
               textDecoration: "none", 
               color: "inherit", 
