@@ -1,4 +1,6 @@
 const Feedback = require("../models/Feedback");
+const Sentiment = require('sentiment');
+const sentiment = new Sentiment();
 
 // Submit Feedback
 const submitFeedback = async (req, res) => {
@@ -35,6 +37,29 @@ const deleteFeedback  = async (req, res) => {
   }
 };
 
-module.exports = { submitFeedback, getAllFeedback ,deleteFeedback };
+
+//for sentiment || report genration 
+
+const analyzeFeedbackData = async (req, res) => {
+  try {
+    const feedbacks = await Feedback.find();
+
+    const sentimentCounts = { Positive: 0, Neutral: 0, Negative: 0 };
+
+    feedbacks.forEach(item => {
+      const result = sentiment.analyze(item.message); // analyzing 'message' field
+      if (result.score > 0) sentimentCounts.Positive++;
+      else if (result.score < 0) sentimentCounts.Negative++;
+      else sentimentCounts.Neutral++;
+    });
+
+    res.json(sentimentCounts);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to analyze feedback", error });
+  }
+};
+
+
+module.exports = { submitFeedback, getAllFeedback ,deleteFeedback,analyzeFeedbackData };
 
 

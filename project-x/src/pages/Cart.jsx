@@ -1,7 +1,11 @@
 import {Container,Typography,Card,CardMedia,CardContent,Button,Box,Divider} from "@mui/material";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+
+  import { useState, useEffect } from "react";
+  import axios from "axios";
+  import { useNavigate } from "react-router-dom";
+
+
+
   
   const API_URL = "http://localhost:3000/api/cart";
   
@@ -13,8 +17,16 @@ import { useNavigate } from "react-router-dom";
     }, []);
   
     const fetchCartItems = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+    
       try {
-        const response = await axios.get(API_URL);
+        const userResponse = await axios.get("http://localhost:3000/api/auth/user", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+    
+        const userID = userResponse.data._id;
+        const response = await axios.get(`${API_URL}?userID=${userID}`);
         setCartItems(response.data);
       } catch (error) {
         console.error("Error fetching cart items:", error);
@@ -23,7 +35,7 @@ import { useNavigate } from "react-router-dom";
   
     const increaseQuantity = async (id) => {
       await axios.put(`${API_URL}/increase/${id}`);
-      fetchCartItems();
+      fetchCartItems(); 
     };
   
     const decreaseQuantity = async (id) => {
@@ -35,25 +47,48 @@ import { useNavigate } from "react-router-dom";
       await axios.delete(`${API_URL}/${id}`);
       fetchCartItems();
     };
-  
-    const navigate = useNavigate();
 
+    
+    // Inside component
+    const navigate = useNavigate();
     const handleCheckout = async () => {
       try {
-        const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-        const payload = {
-          userId: "guest",
-          items: cartItems,
-          total,
-        };
-        await axios.post("http://localhost:3000/api/cart/checkout", payload);
-        await axios.delete(API_URL); // clear cart
-        navigate("/order-confirmation", { state: { items: cartItems, total } });
-       } catch (error) {
-          console.error("Checkout failed:", error);
-          alert("Checkout failed!");
-  }
-};
+        const token = localStorage.getItem("token");
+        const userResponse = await axios.get("http://localhost:3000/api/auth/user", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const userId = userResponse.data._id;
+    
+        // const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        // const payload = {
+        //   userId,
+        //   items: cartItems,
+        //   total,
+        // };
+    
+        // await axios.post("http://localhost:3000/api/cart/checkout", payload);
+    
+        // Create a delivery record
+        await axios.post("http://localhost:3000/api/delivery", {
+          orderId: userId, // assuming 1:1 user-order relation
+          deliveryPerson: "Assigned Soon",
+          deliveryAddress: "From user profile or prompt",
+          estimatedDeliveryTime: new Date(Date.now() + 2 * 60 * 60 * 1000), // 2 hours from now
+        });
+    
+        alert("Order placed successfully!");
+        setCartItems([]);
+        await axios.delete("http://localhost:3000/api/cart");
+    
+        navigate("/track-order", { state: { trackingNo: userId } }); // Redirect to Delivery tracking
+    
+      } catch (error) {
+        console.error("Checkout failed:", error);
+        alert("Checkout failed!");
+      }
+    };
+    
+
   
     const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   

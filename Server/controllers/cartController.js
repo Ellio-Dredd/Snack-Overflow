@@ -5,18 +5,23 @@ const Deliver = require("../models/Deliver");  // Assuming you have created the 
 
 // Get all cart items
 exports.getCartItems = async (req, res) => {
-    try {
-        const cartItems = await CartItem.find();
-        res.json(cartItems);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+    const userId = req.query.userID; // Or get from JWT later
+  
+    if (!userId) {
+      return res.status(400).json({ message: "User ID is required" });
     }
-};
-
+  
+    try {
+      const cartItems = await CartItem.find({ userID: userId });
+      res.json(cartItems);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
 
 // Add item to cart
 exports.addToCart = async (req, res) => {
-    const { productId, name, price,image, quantity } = req.body;
+    const { productId, name, price,image,userID, quantity } = req.body;
     try {
         let item = await CartItem.findOne({ productId });
         if (item) {
@@ -27,6 +32,7 @@ exports.addToCart = async (req, res) => {
                 name,
                 price,
                 image,
+                userID,
                 quantity
             });
         }

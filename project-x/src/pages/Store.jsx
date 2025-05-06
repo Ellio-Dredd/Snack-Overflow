@@ -12,9 +12,8 @@ import {
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-
-// Add to cart function 
-const API_URL = "http://localhost:3000/api/cart"; 
+// Add to cart function
+const API_URL = "http://localhost:3000/api/cart";
 // Your backend cart service URL
 
 export const addToCart = async (item) => {
@@ -28,9 +27,10 @@ export const addToCart = async (item) => {
 
 export default function Store() {
   const [products, setProducts] = useState([]);
+  const [user, setUser] = useState(null); // State to store user information
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchProductsAndUser = async () => {
       const token = localStorage.getItem("token");
       if (!token) {
         alert("Sign in to view store items.");
@@ -39,24 +39,39 @@ export default function Store() {
       }
 
       try {
-        const response = await axios.get("http://localhost:3000/api/Store", {
+        // Fetch products
+        const productsResponse = await axios.get("http://localhost:3000/api/Store", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
-        if (response.status === 200) {
-          setProducts(response.data);
+        if (productsResponse.status === 200) {
+          setProducts(productsResponse.data);
         } else {
-          alert(response.data.message);
+          alert(productsResponse.data.message);
+        }
+
+        // Fetch user information
+        const userResponse = await axios.get("http://localhost:3000/api/auth/user", { // Replace with your actual user info endpoint
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (userResponse.status === 200) {
+          setUser(userResponse.data);
+        } else {
+          console.error("Error fetching user:", userResponse.data.message);
+          // Optionally handle error, e.g., redirect to login
         }
       } catch (error) {
-        console.error("Error fetching store items:", error);
-        alert("Error fetching items: " + error.message);
+        console.error("Error fetching data:", error);
+        alert("Error fetching data: " + error.message);
       }
     };
 
-    fetchProducts();
+    fetchProductsAndUser();
   }, []);
 
   const handleAddToCart = (product) => {
@@ -67,11 +82,17 @@ export default function Store() {
       return;
     }
 
+    if (!user) {
+      alert("User information not loaded. Please try again.");
+      return;
+    }
+
     const item = {
       productId: product.ItemID,
       name: product.ItemName,
       price: product.ItemPrice,
       image: product.message,
+      userID: user._id, // Use the fetched user ID
       quantity: 1,
     };
 
@@ -79,11 +100,7 @@ export default function Store() {
   };
 
   return (
-    
-    
     <div
-    
-    
       style={{
         minHeight: "100vh",
         background: "linear-gradient(to right, #c2e9fb, #a1c4fd)",
@@ -92,7 +109,6 @@ export default function Store() {
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
       }}
     >
-      
       <Container>
         <Typography
           variant="h3"
