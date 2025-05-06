@@ -14,7 +14,7 @@ const CoverImage = () => {
           backgroundPosition: "center",
           top: 0,
           width: "100%",
-          height: "70vh",
+          height: "90vh",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",

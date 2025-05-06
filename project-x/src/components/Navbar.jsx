@@ -37,6 +37,7 @@ export default function Navbar() {
     { label: "Store", to: "/Store" },
     { label: "E-Channeling", to: "/SelectAppointment" },
     { label: "Contact", to: "/Contact" },
+    { label: "Delivery", to: "/TrackOrder" }
   ];
 
   return (
