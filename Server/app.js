@@ -50,5 +50,8 @@ app.use('/api/auth', authRoutes);
 const DeliveryRoutes = require("./routes/deliveryRoutes.js");
 app.use('/api/delivery', DeliveryRoutes);
 
+const adminDeliveryRoutes = require('./routes/adminDeliverRoutes'); // path may vary
+app.use('/api', adminDeliveryRoutes); // ✅ this makes /api/admin-delivery available
+
 // Export app instance
 module.exports = app;

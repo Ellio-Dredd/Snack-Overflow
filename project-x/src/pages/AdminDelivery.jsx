@@ -50,7 +50,9 @@ export default function AdminDelivery() {
           <tbody>
             {deliveries.map(delivery => (
               <tr key={delivery._id} className="hover:bg-gray-800 transition">
-                <td className="border border-gray-700 px-4 py-3">{delivery.orderId}</td>
+                <td className="border border-gray-700 px-4 py-3">
+                  {delivery.orderId?.orderNumber || delivery.orderId?.customerName || delivery.orderId?._id || 'N/A'}
+                </td>
                 <td className="border border-gray-700 px-4 py-3">{delivery.deliveryPerson}</td>
                 <td className="border border-gray-700 px-4 py-3">{delivery.deliveryAddress}</td>
                 <td className="border border-gray-700 px-4 py-3">

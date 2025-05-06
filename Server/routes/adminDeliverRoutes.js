@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const adminDeliveryxxxController = require('../controllers/adminDeliverController');
+const adminDeliveryController = require('../controllers/adminDeliveryController');
 
-// GET all deliveries
-router.get('/', adminDeliveryxxxController.getAllAdminDeliveryxxx);
+// Route to get deliveries
+router.get('/admin-delivery', adminDeliveryController.getAllAdminDelivery);
 
-// PATCH update delivery status
-router.patch('/:id/status', adminDeliveryxxxController.updateAdminDeliveryxxxStatus);
+// Route to update status
+router.patch('/admin-delivery/:id/status', adminDeliveryController.updateAdminDeliveryStatus);
 
 module.exports = router;
