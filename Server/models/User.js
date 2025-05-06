@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
     months: { type: Boolean, default: false },
     weeks:  { type: Boolean, default: false }
   },
+  isAdmin:  { type: Boolean, default: false },
 }, { timestamps: true });
 
 userSchema.pre('save', async function (next) {

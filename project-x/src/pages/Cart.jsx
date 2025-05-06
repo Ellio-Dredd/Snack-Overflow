@@ -50,6 +50,7 @@ export default function Cart() {
   const handleCheckout = async () => {
     try {
       const token = localStorage.getItem("token");
+
       const userResponse = await axios.get("http://localhost:3000/api/auth/user", {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -153,6 +154,7 @@ export default function Cart() {
                       variant="contained"
                       size="small"
                       onClick={() => decreaseQuantity(item._id)}
+
                     >
                       -
                     </Button>
