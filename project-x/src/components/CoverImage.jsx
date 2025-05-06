@@ -14,7 +14,7 @@ const CoverImage = () => {
           backgroundPosition: "center",
           top: 0,
           width: "100%",
-          height: "70vh",
+          height: "90vh",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -27,7 +27,7 @@ const CoverImage = () => {
           sx={{
             position: "center",
             marginBottom: "500px", // Adjust this value for spacing from the top
-            marginTop: "80px", // Adjust this value for spacing from the top
+            marginTop: "150px", // Adjust this value for spacing from the top
             left: "50%", // Move to the center
             fontSize: "170px" ,
             // transform: "translateX(-50%)", // Perfectly center the text

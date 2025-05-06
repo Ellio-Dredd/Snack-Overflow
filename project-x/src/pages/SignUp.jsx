@@ -77,7 +77,7 @@ export default function SignUp() {
   return (
     <Box
       sx={{
-        minHeight: "100vh",
+        minHeight: "150vh",
         background: "linear-gradient(to right, #c2e9fb, #a1c4fd)",
         display: "flex",
         alignItems: "center",
