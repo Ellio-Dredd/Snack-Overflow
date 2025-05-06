@@ -12,6 +12,7 @@ import AdminPanel from "./pages/AdminPanel";
 import Cart from "./pages/Cart";
 import CredentialsSignInPage from "./pages/SignIn";
 import SignUp from "./pages/SignUp"
+import TrackOrder from "./pages/TrackOrder";
 
 
 
@@ -34,7 +35,7 @@ export default function AppRouter() {
             <Route path="/Cart" element={<Cart />} /> 
             <Route path="/SignIn" element={<CredentialsSignInPage />} /> 
             <Route path="/SignUp" element={<SignUp />} /> 
-
+            <Route path="/TrackOrder" element={<TrackOrder/>}/>
           </Routes>
         </div>
         <Footer/>
