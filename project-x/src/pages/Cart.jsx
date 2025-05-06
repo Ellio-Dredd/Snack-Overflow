@@ -1,6 +1,7 @@
 import {Container,Typography,Card,CardMedia,CardContent,Button,Box,Divider} from "@mui/material";
-  import { useState, useEffect } from "react";
-  import axios from "axios";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
   
   const API_URL = "http://localhost:3000/api/cart";
   
@@ -35,6 +36,8 @@ import {Container,Typography,Card,CardMedia,CardContent,Button,Box,Divider} from
       fetchCartItems();
     };
   
+    const navigate = useNavigate();
+
     const handleCheckout = async () => {
       try {
         const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -44,14 +47,13 @@ import {Container,Typography,Card,CardMedia,CardContent,Button,Box,Divider} from
           total,
         };
         await axios.post("http://localhost:3000/api/cart/checkout", payload);
-        alert("Order placed successfully!");
-        setCartItems([]);
         await axios.delete(API_URL); // clear cart
-      } catch (error) {
-        console.error("Checkout failed:", error);
-        alert("Checkout failed!");
-      }
-    };
+        navigate("/order-confirmation", { state: { items: cartItems, total } });
+       } catch (error) {
+          console.error("Checkout failed:", error);
+          alert("Checkout failed!");
+  }
+};
   
     const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   
