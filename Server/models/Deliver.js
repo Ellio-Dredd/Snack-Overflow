@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
 
 const deliverySchema = new mongoose.Schema({
-  orderId: { type: mongoose.Schema.Types.ObjectId, required: true },
+
+  orderId: { type: mongoose.Schema.Types.ObjectId,  required: true },//add ref: 'Order',
+
   deliveryPerson: { type: String, required: true },
   deliveryAddress: { type: String, required: true },
   status: { type: String, default: "pending" },
@@ -17,4 +19,7 @@ const deliverySchema = new mongoose.Schema({
   total: { type: Number, required: true }
 }, { timestamps: true });
 
-module.exports = mongoose.model("Deliver", deliverySchema);
+
+const Deliver = mongoose.model('Deliver', deliverySchema);
+module.exports = Deliver;
+

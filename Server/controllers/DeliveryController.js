@@ -46,8 +46,14 @@ exports.getDeliveryById = async (req, res) => {
 
     res.json(delivery);
 
+
+
+
+
+
   } catch (err) {
     console.error("Error fetching delivery:", err);
     res.status(500).json({ message: "Server error" });
   }
 };
+

@@ -50,12 +50,17 @@ app.use('/api/auth', authRoutes);
 const DeliveryRoutes = require("./routes/deliveryRoutes.js");
 app.use('/api/delivery', DeliveryRoutes);
 
+
+const adminDeliveryRoutes = require('./routes/adminDeliverRoutes'); // path may vary
+app.use('/api', adminDeliveryRoutes); // ✅ this makes /api/admin-delivery available
+
 //Admin routes
 const isAdmin  = require('./middleware/admin.js');
 const authMiddleware  = require('./middleware/auth.js');
 app.get('/api/admin/dashboard', authMiddleware, isAdmin, (req, res) => {
   res.json({ message: "Welcome Admin" });
 });
+
 
 // Export app instance
 module.exports = app;

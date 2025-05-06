@@ -19,6 +19,9 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AdminRoute from "./components/AdminRoute";
 import { UserContext } from "./UserContext";
 
+import AdminDelivery from "./pages/AdminDelivery"; // Adjust the import based on your file structure;
+
+
 export default function AppRouter() {
   const location = useLocation();
   const { user } = useContext(UserContext);
@@ -61,6 +64,9 @@ export default function AppRouter() {
           <Route path="/admin/feedback" element={<AdminRoute><AdminFeedback /></AdminRoute>} />
           <Route path="/admin/store" element={<AdminRoute><AdminStore /></AdminRoute>} />
           <Route path="/admin/panel" element={<AdminRoute><AdminPanel /></AdminRoute>} />
+
+          <Route path="/admin/deliveries" element={<AdminDelivery />} />
+
         </Routes>
       </div>
       <Footer/>
