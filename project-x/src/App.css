@@ -1,5 +1,5 @@
 #root {
-  background-color: #7A73D1;
+  background: linear-gradient(to right, #c2e9fb, #a1c4fd);
   width: 100%;  /* Ensures full width */
   min-height: 100vh;  /* Ensures full page height */
   margin: 0;

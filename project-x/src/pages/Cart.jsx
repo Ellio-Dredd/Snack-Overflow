@@ -1,7 +1,9 @@
 import {Container,Typography,Card,CardMedia,CardContent,Button,Box,Divider} from "@mui/material";
+
   import { useState, useEffect } from "react";
   import axios from "axios";
   import { useNavigate } from "react-router-dom";
+
 
 
   
@@ -45,6 +47,7 @@ import {Container,Typography,Card,CardMedia,CardContent,Button,Box,Divider} from
       await axios.delete(`${API_URL}/${id}`);
       fetchCartItems();
     };
+
     
     // Inside component
     const navigate = useNavigate();
@@ -56,28 +59,31 @@ import {Container,Typography,Card,CardMedia,CardContent,Button,Box,Divider} from
         });
         const userId = userResponse.data._id;
     
-        const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-        const payload = {
-          userId,
-          items: cartItems,
-          total,
-        };
-    
-        await axios.post("http://localhost:3000/api/cart/checkout", payload);
-    
+
+       
         // Create a delivery record
         await axios.post("http://localhost:3000/api/delivery", {
-          orderId: userId, // assuming 1:1 user-order relation
+          orderId: userId, //  1:1 user-order relation
+
           deliveryPerson: "Assigned Soon",
           deliveryAddress: "From user profile or prompt",
-          estimatedDeliveryTime: new Date(Date.now() + 2 * 60 * 60 * 1000), // 2 hours from now
+          estimatedDeliveryTime: new Date(Date.now() + 2 * 60 * 60 * 1000),
         });
     
         alert("Order placed successfully!");
         setCartItems([]);
         await axios.delete("http://localhost:3000/api/cart");
     
-        navigate("/track-order", { state: { trackingNo: userId } }); // Redirect to Delivery tracking
+
+        // ✅ Pass items and total
+        navigate("/OrderConfirmation", {
+          state: {
+            items: cartItems,
+            total: totalPrice,
+            trackingNo: userId
+          }
+        });
+
     
       } catch (error) {
         console.error("Checkout failed:", error);
@@ -85,6 +91,7 @@ import {Container,Typography,Card,CardMedia,CardContent,Button,Box,Divider} from
       }
     };
     
+
   
     const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   

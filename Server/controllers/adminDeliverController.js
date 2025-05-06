@@ -1,9 +1,9 @@
-const AdminDelivery = require('../models/Deliver');
+const Deliver = require('../models/Deliver');
 
 // Get all delivery records
 exports.getAllAdminDelivery = async (req, res) => {
   try {
-    const deliveries = await AdminDelivery.find().populate('orderId');
+    const deliveries = await Deliver.find().populate('orderId');
     res.status(200).json(deliveries);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -20,7 +20,7 @@ exports.updateAdminDeliveryStatus = async (req, res) => {
   }
 
   try {
-    const updated = await AdminDelivery.findByIdAndUpdate(
+    const updated = await Deliver.findByIdAndUpdate(
       id,
       { status },
       { new: true }

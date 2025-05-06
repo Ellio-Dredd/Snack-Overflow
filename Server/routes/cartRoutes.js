@@ -21,8 +21,9 @@ router.delete("/:id", removeItem);
 router.delete("/", clearCart);
 
 
-// Add a route for checkout (create delivery)
-router.post("/checkout", createDelivery);
+
+// // Add a route for checkout (create delivery)
+// router.post("/checkout", createDelivery);
 
 
 module.exports = router;
