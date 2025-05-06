@@ -1,7 +1,7 @@
-import React from "react";
+
 import { useLocation } from "react-router-dom";
 import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable"; // This is the correct import
+import autoTable from "jspdf-autotable"; 
 
 import { Container, Typography, Button, Box } from "@mui/material";
 

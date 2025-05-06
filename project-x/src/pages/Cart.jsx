@@ -59,18 +59,10 @@ import {Container,Typography,Card,CardMedia,CardContent,Button,Box,Divider} from
         });
         const userId = userResponse.data._id;
     
-        // const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-        // const payload = {
-        //   userId,
-        //   items: cartItems,
-        //   total,
-        // };
-    
-        // await axios.post("http://localhost:3000/api/cart/checkout", payload);
-    
+       
         // Create a delivery record
         await axios.post("http://localhost:3000/api/delivery", {
-          orderId: userId, // assuming 1:1 user-order relation
+          orderId: userId, //  1:1 user-order relation
           deliveryPerson: "Assigned Soon",
           deliveryAddress: "From user profile or prompt",
           estimatedDeliveryTime: new Date(Date.now() + 2 * 60 * 60 * 1000), // 2 hours from now
@@ -80,7 +72,7 @@ import {Container,Typography,Card,CardMedia,CardContent,Button,Box,Divider} from
         setCartItems([]);
         await axios.delete("http://localhost:3000/api/cart");
     
-        navigate("/track-order", { state: { trackingNo: userId } }); // Redirect to Delivery tracking
+        navigate("/OrderConfirmation", { state: { trackingNo: userId } }); // Redirect to Delivery tracking
     
       } catch (error) {
         console.error("Checkout failed:", error);

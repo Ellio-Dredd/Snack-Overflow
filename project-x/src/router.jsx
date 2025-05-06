@@ -15,7 +15,7 @@ import SignUp from "./pages/SignUp"
 
 import OrderConfirmation from "./pages/OrderConfirmation";
 
-import TrackOrder from "./pages/TrackOrder";
+
 
 
 
@@ -40,10 +40,10 @@ export default function AppRouter() {
             <Route path="/SignIn" element={<CredentialsSignInPage />} /> 
             <Route path="/SignUp" element={<SignUp />} /> 
 
-            <Route path="/order-confirmation" element={<OrderConfirmation />} />
+            <Route path="/OrderConfirmation" element={<OrderConfirmation />} />
 
 
-            <Route path="/TrackOrder" element={<TrackOrder/>}/>
+          
 
           </Routes>
         </div>
