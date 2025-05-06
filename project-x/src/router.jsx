@@ -1,18 +1,19 @@
 import {  Routes, Route } from "react-router-dom";
 import AdminFeedback from "./pages/AdminFeedback";
 import Navbar from "./components/Navbar";
-import Home from './pages/Home'
-import Contact from './pages/Contact'
-import Footer from "./components/Footer"
-import Store from './pages/Store'
-import AdminStore from './pages/AdminStore'
-import EnterDetails from './pages/EnterDetails'
-import SelectAppointment from './pages/SelectAppointment'
+import Home from './pages/Home';
+import Contact from './pages/Contact';
+import Footer from "./components/Footer";
+import Store from './pages/Store';
+import AdminStore from './pages/AdminStore';
+import EnterDetails from './pages/EnterDetails';
+import SelectAppointment from './pages/SelectAppointment';
 import AdminPanel from "./pages/AdminPanel";
 import Cart from "./pages/Cart";
 import CredentialsSignInPage from "./pages/SignIn";
-import SignUp from "./pages/SignUp"
+import SignUp from "./pages/SignUp";
 import TrackOrder from "./pages/TrackOrder";
+import AdminDelivery from "./pages/AdminDelivery";
 
 
 
@@ -36,6 +37,7 @@ export default function AppRouter() {
             <Route path="/SignIn" element={<CredentialsSignInPage />} /> 
             <Route path="/SignUp" element={<SignUp />} /> 
             <Route path="/TrackOrder" element={<TrackOrder/>}/>
+            <Route path="/AdminDelivery" element={<AdminDelivery/>}/>
           </Routes>
         </div>
         <Footer/>
