@@ -41,10 +41,6 @@ exports.getDeliveryById = async (req, res) => {
   }
 };
 
-module.exports = {
-  createDelivery,
-  getDeliveryById,
-  // add other functions here
-};
+
 
 

@@ -48,7 +48,7 @@ app.use('/api/auth', authRoutes);
 
 //Delivery
 const DeliveryRoutes = require("./routes/deliveryRoutes.js");
-app.use('/api/delivery', authRoutes);
+app.use('/api/delivery', DeliveryRoutes);
 
 // Export app instance
 module.exports = app;
