@@ -1,7 +1,9 @@
 import {Container,Typography,Card,CardMedia,CardContent,Button,Box,Divider} from "@mui/material";
+
   import { useState, useEffect } from "react";
   import axios from "axios";
   import { useNavigate } from "react-router-dom";
+
 
 
   
@@ -45,6 +47,7 @@ import {Container,Typography,Card,CardMedia,CardContent,Button,Box,Divider} from
       await axios.delete(`${API_URL}/${id}`);
       fetchCartItems();
     };
+
     
     // Inside component
     const navigate = useNavigate();
@@ -85,6 +88,7 @@ import {Container,Typography,Card,CardMedia,CardContent,Button,Box,Divider} from
       }
     };
     
+
   
     const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   
