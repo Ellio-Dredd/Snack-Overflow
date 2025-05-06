@@ -1,3 +1,4 @@
+
 import {Container,Typography,Card,CardMedia,CardContent,Button,Box,Divider} from "@mui/material";
 
   import { useState, useEffect } from "react";
@@ -156,72 +157,51 @@ import {Container,Typography,Card,CardMedia,CardContent,Button,Box,Divider} from
                       alignItems="center"
                       marginLeft="348px"
                       mt={2}
+ 
                     >
-                      <Button
-                        variant="contained"
-                        size="small"
-                        onClick={() => decreaseQuantity(item._id)}
-                      >
-                        -
-                      </Button>
-                      <Typography sx={{ mx: 2 }}>{item.quantity}</Typography>
-                      <Button
-                        variant="contained"
-                        size="small"
-                        onClick={() => increaseQuantity(item._id)}
-                      >
-                        +
-                      </Button>
-                      <Button
-                        variant="outlined"
-                        color="error"
-                        size="small"
-                        onClick={() => removeItem(item._id)}
-                        sx={{ ml: 2 }}
-                      >
-                        Remove
-                      </Button>
-                    </Box>
-                  </CardContent>
-                </Box>
-              </Card>
-            ))}
-          </Box>
-  
-          {cartItems.length > 0 && (
-            <Box textAlign="right" mt={4}>
-              <Divider />
-              <Typography
-                variant="h5"
-                sx={{
-                  mt: 2,
-                  fontWeight: "600",
-                  fontFamily: "'Poppins', sans-serif",
-                  textAlign: "right",
-                  ml: 1,
-                  color: "#333",
-                }}  >
-                Total: Rs. {totalPrice}/=
-              </Typography>
+                      Remove
+                    </Button>
+                  </Box>
+                </CardContent>
+              </Box>
+            </Card>
+          ))}
+        </Box>
 
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleCheckout}
-                sx={{
-                  mt: 2,
-                  borderRadius: "30px",
-                  textTransform: "none",
-                  fontWeight: "bold",
-                  px: 4,
-                }}
-              >
-                Checkout
-              </Button>
-            </Box>
-          )}
-        </Container>
-      </div>
-    );
-  }
-  
+        {cartItems.length > 0 && (
+          <Box textAlign="right" mt={4}>
+            <Divider />
+            <Typography
+              variant="h5"
+              sx={{
+                mt: 2,
+                fontWeight: "600",
+                fontFamily: "'Poppins', sans-serif",
+                textAlign: "right",
+                ml: 1,
+                color: "#333",
+              }}
+            >
+              Total: Rs. {totalPrice}/=
+            </Typography>
+
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleCheckout}
+              sx={{
+                mt: 2,
+                borderRadius: "30px",
+                textTransform: "none",
+                fontWeight: "bold",
+                px: 4,
+              }}
+            >
+              Checkout
+            </Button>
+          </Box>
+        )}
+      </Container>
+    </div>
+  );
+}

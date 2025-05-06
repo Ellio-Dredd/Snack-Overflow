@@ -1,46 +1,59 @@
 const Deliver = require("../models/Deliver");
 
+// Save a new delivery
 exports.createDelivery = async (req, res) => {
   try {
-    const { orderId, deliveryPerson, deliveryAddress, estimatedDeliveryTime } = req.body;
-
-    const delivery = new Deliver({
+    const {
       orderId,
       deliveryPerson,
       deliveryAddress,
       estimatedDeliveryTime,
+      items,
+      total
+    } = req.body;
+
+    if (!items || items.length === 0) {
+      return res.status(400).json({ message: "Items are required" });
+    }
+
+    const newDelivery = new Deliver({
+      orderId,
+      deliveryPerson,
+      deliveryAddress,
+      estimatedDeliveryTime,
+      items,
+      total
     });
 
-    await delivery.save();
-    res.status(201).json(delivery);
+    await newDelivery.save();
+    res.status(201).json(newDelivery);
 
-  } catch (error) {
-    console.error("Error creating delivery:", error);
-    res.status(500).json({ message: "Failed to create delivery" });
+  } catch (err) {
+    console.error("Error creating delivery:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
+// Get delivery by orderId
 exports.getDeliveryById = async (req, res) => {
   try {
     const { id } = req.params;
-    const delivery = await Deliver.findOne({ orderId: id }); // assuming id is userId
+    const delivery = await Deliver.findOne({ orderId: id });
 
     if (!delivery) {
       return res.status(404).json({ message: "Delivery not found" });
     }
 
-    res.status(200).json({
-      orderId: delivery.orderId,
-      status: delivery.status,
-      estimatedTime: delivery.estimatedDeliveryTime,
-      actualTime: delivery.actualDeliveryTime,
-    });
-  } catch (error) {
-    console.error("Error fetching delivery:", error);
-    res.status(500).json({ message: "Something went wrong." });
+    res.json(delivery);
+
+
+
+
+
+
+  } catch (err) {
+    console.error("Error fetching delivery:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
-
-
-
 
