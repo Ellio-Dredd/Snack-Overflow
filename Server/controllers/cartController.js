@@ -103,19 +103,29 @@ exports.clearCart = async (req, res) => {
 
 // Create a new delivery order
 exports.createDelivery = async (req, res) => {
-    const { userId, items, total } = req.body;
-    try {
-        const newDelivery = new Deliver({
-            userId,
-            items,
-            total,
-        });
-
-        await newDelivery.save();
-        res.status(201).json({ message: "Delivery order saved successfully" });
-    } catch (error) {
-        res.status(500).json({ message: "Error saving delivery", error });
+    const { orderId, deliveryPerson, deliveryAddress, estimatedDeliveryTime, items, total } = req.body;
+  
+    // Check if address is provided
+    if (!deliveryAddress) {
+      return res.status(400).json({ message: "Delivery address is required" });
     }
-};
+  
+    try {
+      const newDelivery = new Deliver({
+        orderId,
+        deliveryPerson,
+        deliveryAddress,
+        estimatedDeliveryTime,
+        items,
+        total,
+      });
+  
+      await newDelivery.save();
+      res.status(201).json(newDelivery);  // Successfully created the delivery order
+    } catch (err) {
+      console.error("Error creating delivery:", err);
+      res.status(500).json({ message: "Server error" });
+    }
+  };
 
 
