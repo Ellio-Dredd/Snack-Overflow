@@ -18,6 +18,7 @@ import OrderConfirmation from "./pages/OrderConfirmation";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminRoute from "./components/AdminRoute";
 import { UserContext } from "./UserContext";
+import Deliver from "./pages/Deliver";
 
 import AdminDelivery from "./pages/AdminDelivery"; // Adjust the import based on your file structure;
 
@@ -58,6 +59,7 @@ export default function AppRouter() {
           <Route path="/SignIn" element={<CredentialsSignInPage />} />
           <Route path="/SignUp" element={<SignUp />} />
           <Route path="/OrderConfirmation" element={<OrderConfirmation />} />
+          <Route path="/Deliver" element={<Deliver />} />
           
           {/* Admin Routes */}
           <Route path="/admin/dashboard" element={<AdminRoute><AdminDashboard /></AdminRoute>} />

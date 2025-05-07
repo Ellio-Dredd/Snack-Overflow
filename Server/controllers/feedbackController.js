@@ -38,6 +38,18 @@ const deleteFeedback  = async (req, res) => {
 };
 
 
+//update feedback
+const updateFeedback = async (req, res) => {
+  try {
+    const updated = await Feedback.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!updated) return res.status(404).json({ message: "Feedback not found" });
+    res.json(updated);
+  } catch (error) {
+    res.status(500).json({ message: "Error updating feedback", error });
+  }
+};
+
+
 //for sentiment || report genration 
 
 const analyzeFeedbackData = async (req, res) => {
@@ -60,6 +72,6 @@ const analyzeFeedbackData = async (req, res) => {
 };
 
 
-module.exports = { submitFeedback, getAllFeedback ,deleteFeedback,analyzeFeedbackData };
+module.exports = { submitFeedback, getAllFeedback ,deleteFeedback,analyzeFeedbackData ,updateFeedback };
 
 

@@ -79,7 +79,15 @@ const AdminPanel = () => {
 
   return (
     <div className="container mt-5">
-      <h2>Admin Panel - Manage Appointments</h2>
+                  <h2
+                          style={{
+                            fontFamily: 'Poppins, sans-serif',
+                            fontWeight: 'bold',
+                            color: 'navy',
+                          }}
+                        >
+                             Manage Appointments 
+              </h2>
 
       {/* Table to display appointments */}
       <TableContainer>
