@@ -25,7 +25,7 @@ export default function AdminDelivery() {
         setDeliveries(prev =>
           prev.map(del => (del._id === id ? res.data : del))
         );
-        alert('Status updated');
+        alert('Status updated successfully');
       })
       .catch(err => {
         console.error('Error updating status:', err);
@@ -34,29 +34,44 @@ export default function AdminDelivery() {
   };
 
   return (
-    <nav className="p-6 bg-gray-900 text-white min-h-screen">
-      <h1 className="text-3xl font-bold mb-6 border-b border-gray-700 pb-2">Admin Delivery Management</h1>
+    <nav className="p-6 bg-gray-900 text-white min-h-screen font-[Poppins,sans-serif]">
+      <h1 className="text-3xl font-bold mb-6 border-b border-gray-700 pb-2 text-blue-200">
+        Admin Panel - Manage Deliveries
+      </h1>
+
       <div className="overflow-x-auto">
-        <table className="table-auto w-full border border-gray-700">
-          <thead className="bg-gray-800">
+        <table className="table-auto w-full border border-gray-700 text-sm">
+          <thead className="bg-gray-800 text-left">
             <tr>
-              <th className="border border-gray-600 px-4 py-3 text-left">Order ID</th>
-              <th className="border border-gray-600 px-4 py-3 text-left">Delivery Person</th>
-              <th className="border border-gray-600 px-4 py-3 text-left">Address</th>
-              <th className="border border-gray-600 px-4 py-3 text-left">Items</th>
-              <th className="border border-gray-600 px-4 py-3 text-left">Status</th>
-              <th className="border border-gray-600 px-4 py-3 text-left">Update</th>
+              <th className="border border-gray-600 px-4 py-3">Order ID</th>
+              <th className="border border-gray-600 px-4 py-3">Delivery Person</th>
+              <th className="border border-gray-600 px-4 py-3">Address</th>
+              <th className="border border-gray-600 px-4 py-3">Items</th>
+              <th className="border border-gray-600 px-4 py-3">Status</th>
+              <th className="border border-gray-600 px-4 py-3">Action</th>
             </tr>
           </thead>
           <tbody>
             {deliveries.map(delivery => (
-              <tr key={delivery._id} className="hover:bg-gray-800 transition">
+              <tr key={delivery._id} className="hover:bg-gray-800 transition duration-150">
                 <td className="border border-gray-700 px-4 py-3">
                   {delivery.orderId?.orderNumber || delivery.orderId?.customerName || delivery.orderId?._id || 'N/A'}
                 </td>
                 <td className="border border-gray-700 px-4 py-3">{delivery.deliveryPerson}</td>
                 <td className="border border-gray-700 px-4 py-3">{delivery.deliveryAddress}</td>
-                <td className="border border-gray-700 px-4 py-3">{delivery.items}</td>
+                <td className="border border-gray-700 px-4 py-3">
+                      {Array.isArray(delivery.items) && delivery.items.length > 0 ? (
+                        <ul className="list-disc pl-5">
+                          {delivery.items.map((item, index) => (
+                            <li key={index}>
+                              {item.name} × {item.quantity}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        'No items'
+                      )}
+                </td>
                 <td className="border border-gray-700 px-4 py-3">
                   <select
                     className="bg-gray-700 text-white px-2 py-1 rounded"
