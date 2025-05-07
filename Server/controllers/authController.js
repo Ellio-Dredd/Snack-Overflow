@@ -84,6 +84,7 @@ export const signIn = async (req, res) => {
       token,
       user: {
         _id: user._id,
+        userId: user.userId, // Add this line
         email: user.email,
         name: user.name,
         address: user.address,
