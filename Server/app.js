@@ -51,8 +51,8 @@ const DeliveryRoutes = require("./routes/deliveryRoutes.js");
 app.use('/api/delivery', DeliveryRoutes);
 
 
-const adminDeliveryRoutes = require('./routes/adminDeliverRoutes'); // path may vary
-app.use('/api', adminDeliveryRoutes); // ✅ this makes /api/admin-delivery available
+const adminDeliveryRoutes = require('./routes/adminDeliverRoutes'); 
+app.use('/api', adminDeliveryRoutes); //  this makes /api/admin-delivery available
 
 //Admin routes
 const isAdmin  = require('./middleware/admin.js');
