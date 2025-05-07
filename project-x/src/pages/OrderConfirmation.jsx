@@ -1,15 +1,11 @@
-
 import { useLocation } from "react-router-dom";
 import jsPDF from "jspdf";
-
-import autoTable from "jspdf-autotable"; 
-
-
+import autoTable from "jspdf-autotable";
 import { Container, Typography, Button, Box } from "@mui/material";
 
 export default function OrderConfirmation() {
   const location = useLocation();
-  const { items = [], total = 0 } = location.state || {};
+  const { trackingNo = "", items = [], total = 0 } = location.state || {};
 
   const generatePdf = () => {
     const doc = new jsPDF();
@@ -34,32 +30,95 @@ export default function OrderConfirmation() {
     });
 
     doc.save("e-bill.pdf");
-};
+  };
 
   return (
-    <Container sx={{ textAlign: "center", mt: 5 }}>
-      <Typography variant="h4" gutterBottom>
+    <Container sx={{ textAlign: "center", mt: 5, padding: "20px" }}>
+      <Typography
+        variant="h4"
+        gutterBottom
+        sx={{
+          fontFamily: "'Poppins', sans-serif",
+          fontWeight: "bold",
+          color: "#333",
+        }}
+      >
         Thank you for your order!
       </Typography>
-      <Typography variant="h6" gutterBottom>
+      <Typography
+        variant="h6"
+        gutterBottom
+        sx={{
+          fontFamily: "'Poppins', sans-serif",
+          color: "#555",
+        }}
+      >
         Your order has been placed successfully.
       </Typography>
+     
 
-      <Box mt={4}>
-        <Typography variant="h6">Ordered Items:</Typography>
+      <Box mt={9} sx={{ textAlign: "left", maxWidth: "600px", margin: "0 auto", marginTop: "40px" }}>
+        <Typography
+          variant="h5"
+          sx={{
+            fontFamily: "'Poppins', sans-serif",
+            fontWeight: "bold",
+            color: "#333",
+          }}
+        >
+          Order ID: {trackingNo}
+        </Typography>
+        <Typography
+          variant="h6"
+          sx={{
+            fontFamily: "'Poppins', sans-serif",
+            fontWeight: "600",
+            color: "#555",
+            mt: 2,
+          }}
+        >
+          Ordered Items:
+        </Typography>
         {items.map((item, idx) => (
-          <Typography key={idx}>
+          <Typography
+            key={idx}
+            sx={{
+              fontFamily: "'Poppins', sans-serif",
+              color: "#555",
+              fontWeight: "400",
+              lineHeight: 1.5,
+            }}
+          >
             {item.name} - {item.quantity} × Rs. {item.price}
           </Typography>
         ))}
-        <Typography sx={{ mt: 2, fontWeight: "bold" }}>
+        <Typography
+          sx={{
+            fontFamily: "'Poppins', sans-serif",
+            mt: 2,
+            fontWeight: "bold",
+            color: "#333",
+            fontSize: "1.2rem",
+          }}
+        >
           Total: Rs. {total}/=
         </Typography>
       </Box>
 
       <Button
         variant="contained"
-        sx={{ mt: 4, px: 4, borderRadius: "30px" }}
+        sx={{
+          fontFamily: "'Poppins', sans-serif",
+          mt: 4,
+          px: 4,
+          borderRadius: "30px",
+          backgroundColor: "#4CAF50", // Green color
+          color: "#fff",
+          fontWeight: "bold",
+          '&:hover': {
+            backgroundColor: "#45a049", // Darker green on hover
+          },
+        }}
         onClick={generatePdf}
       >
         Download e-Bill PDF
