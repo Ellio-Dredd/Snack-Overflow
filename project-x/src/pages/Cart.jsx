@@ -1,163 +1,177 @@
+import { Container, Typography, Card, CardMedia, CardContent, Button, Box, Divider } from "@mui/material";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-import {Container,Typography,Card,CardMedia,CardContent,Button,Box,Divider} from "@mui/material";
+const API_URL = "http://localhost:3000/api/cart";
 
-  import { useState, useEffect } from "react";
-  import axios from "axios";
-  import { useNavigate } from "react-router-dom";
+export default function Cart() {
+  const [cartItems, setCartItems] = useState([]);
+  const navigate = useNavigate();
 
+  // Fetch cart items when the component is mounted
+  useEffect(() => {
+    fetchCartItems();
+  }, []);
 
+  const fetchCartItems = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
 
-  
-  const API_URL = "http://localhost:3000/api/cart";
-  
-  export default function Cart() {
-    const [cartItems, setCartItems] = useState([]);
-  
-    useEffect(() => {
-      fetchCartItems();
-    }, []);
-  
-    const fetchCartItems = async () => {
+    try {
+      const userResponse = await axios.get("http://localhost:3000/api/auth/user", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const userID = userResponse.data._id;
+      const response = await axios.get(`${API_URL}?userID=${userID}`);
+      setCartItems(response.data);
+    } catch (error) {
+      console.error("Error fetching cart items:", error);
+    }
+  };
+
+  // Update quantity functions
+  const increaseQuantity = async (id) => {
+    await axios.put(`${API_URL}/increase/${id}`);
+    fetchCartItems();
+  };
+
+  const decreaseQuantity = async (id) => {
+    await axios.put(`${API_URL}/decrease/${id}`);
+    fetchCartItems();
+  };
+
+  const removeItem = async (id) => {
+    await axios.delete(`${API_URL}/${id}`);
+    fetchCartItems();
+  };
+
+  // Handle checkout
+  const handleCheckout = async () => {
+    try {
       const token = localStorage.getItem("token");
-      if (!token) return;
-    
-      try {
-        const userResponse = await axios.get("http://localhost:3000/api/auth/user", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-    
-        const userID = userResponse.data._id;
-        const response = await axios.get(`${API_URL}?userID=${userID}`);
-        setCartItems(response.data);
-      } catch (error) {
-        console.error("Error fetching cart items:", error);
-      }
-    };
-  
-    const increaseQuantity = async (id) => {
-      await axios.put(`${API_URL}/increase/${id}`);
-      fetchCartItems(); 
-    };
-  
-    const decreaseQuantity = async (id) => {
-      await axios.put(`${API_URL}/decrease/${id}`);
-      fetchCartItems();
-    };
-  
-    const removeItem = async (id) => {
-      await axios.delete(`${API_URL}/${id}`);
-      fetchCartItems();
-    };
 
-    
-    // Inside component
-    const navigate = useNavigate();
-    const handleCheckout = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const userResponse = await axios.get("http://localhost:3000/api/auth/user", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const userId = userResponse.data._id;
-    
+      const userResponse = await axios.get("http://localhost:3000/api/auth/user", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const userId = userResponse.data._id;
 
-       
-        // Create a delivery record
-        await axios.post("http://localhost:3000/api/delivery", {
-          orderId: userId, //  1:1 user-order relation
+      const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
-          deliveryPerson: "Assigned Soon",
-          deliveryAddress: "From user profile or prompt",
-          estimatedDeliveryTime: new Date(Date.now() + 2 * 60 * 60 * 1000),
-        });
-    
-        alert("Order placed successfully!");
-        setCartItems([]);
-        await axios.delete("http://localhost:3000/api/cart");
-    
+      // Create a delivery record
+      await axios.post("http://localhost:3000/api/delivery", {
+        orderId: userId,
+        deliveryPerson: "Assigned Soon",
+        deliveryAddress: "From user profile or prompt",
+        estimatedDeliveryTime: new Date(Date.now() + 2 * 60 * 60 * 1000),
+        items: cartItems,
+        total: totalPrice
+      });
 
-        // ✅ Pass items and total
-        navigate("/OrderConfirmation", {
-          state: {
-            items: cartItems,
-            total: totalPrice,
-            trackingNo: userId
-          }
-        });
+      alert("Order placed successfully!");
+      setCartItems([]); // Clear cart after order
+      await axios.delete("http://localhost:3000/api/cart");
 
-    
-      } catch (error) {
-        console.error("Checkout failed:", error);
-        alert("Checkout failed!");
-      }
-    };
-    
+      navigate("/OrderConfirmation", {
+        state: {
+          trackingNo: userId,
+          items: cartItems,
+          total: totalPrice,
+        },
+      });
+    } catch (error) {
+      console.error("Checkout failed:", error);
+      alert("Checkout failed!");
+    }
+  };
 
-  
-    const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-  
-    return (
-      <div
-        style={{
-          minHeight: "100vh",
-          background: "linear-gradient(to right, #c2e9fb, #a1c4fd)",
-          fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-          paddingTop: "30px",
-          paddingBottom: "40px",
-        }}
-      >
-        <Container>
-          <Typography
-            variant="h3"
-            align="center"
-            gutterBottom
-            style={{
-              fontWeight: "bold",
-              color: "#2a2a2a",
-              fontFamily: "'Poppins', sans-serif",
-              marginBottom: "30px",
-            }}
-          >
-            Shopping Cart
-          </Typography>
-  
-          <Box
-            sx={{
-              maxHeight: "500px",
-              overflowY: "auto",
-              paddingRight: "10px",
-            }}
-          >
-            {cartItems.map((item) => (
-              <Card
-                key={item._id}
-                sx={{
-                  display: "flex",
-                  mb: 2,
-                  borderRadius: "15px",
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                }}
-              >
-                <CardMedia
-                  component="img"
-                  sx={{ width: 150, objectFit: "cover" }}
-                  image={item.image || "https://via.placeholder.com/150"}
-                  alt={item.name}
-                />
-                <Box sx={{ display: "flex", flexDirection: "column", flex: 1 }}>
-                  <CardContent>
-                    <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                      {item.name}
-                    </Typography>
-                    <Typography color="text.secondary">
-                      Price: Rs. {item.price}
-                    </Typography>
-                    <Box
-                      display="flex"
-                      alignItems="center"
-                      marginLeft="348px"
-                      mt={2}
- 
+  // Calculate total price
+  const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "linear-gradient(to right, #c2e9fb, #a1c4fd)",
+        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+        paddingTop: "30px",
+        paddingBottom: "40px",
+      }}
+    >
+      <Container>
+        <Typography
+          variant="h3"
+          align="center"
+          gutterBottom
+          style={{
+            fontWeight: "bold",
+            color: "#2a2a2a",
+            fontFamily: "'Poppins', sans-serif",
+            marginBottom: "30px",
+          }}
+        >
+          Shopping Cart
+        </Typography>
+
+        <Box
+          sx={{
+            maxHeight: "500px",
+            overflowY: "auto",
+            paddingRight: "10px",
+          }}
+        >
+          {cartItems.map((item) => (
+            <Card
+              key={item._id}
+              sx={{
+                display: "flex",
+                mb: 2,
+                borderRadius: "15px",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+              }}
+            >
+              <CardMedia
+                component="img"
+                sx={{ width: 150, objectFit: "cover" }}
+                image={item.image || "https://via.placeholder.com/150"}
+                alt={item.name}
+              />
+              <Box sx={{ display: "flex", flexDirection: "column", flex: 1 }}>
+                <CardContent>
+                  <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                    {item.name}
+                  </Typography>
+                  <Typography color="text.secondary">
+                    Price: Rs. {item.price}
+                  </Typography>
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    marginLeft="348px"
+                    mt={2}
+                  >
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={() => decreaseQuantity(item._id)}
+
+                    >
+                      -
+                    </Button>
+                    <Typography sx={{ mx: 2 }}>{item.quantity}</Typography>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={() => increaseQuantity(item._id)}
+                    >
+                      +
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      size="small"
+                      onClick={() => removeItem(item._id)}
+                      sx={{ ml: 2 }}
                     >
                       Remove
                     </Button>
