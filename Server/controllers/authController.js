@@ -6,8 +6,8 @@ import jwt from 'jsonwebtoken';
 // Fixed Sign Up controller
 export const signUp = async (req, res) => {
   const {
-    firstName,
-    lastName,
+    name,
+    address,
     email,
     password,
     gender,
@@ -29,8 +29,8 @@ export const signUp = async (req, res) => {
 
     // Create new user
     const user = new User({
-      firstName,
-      lastName,
+      name,
+      address,
       email,
       password, // The pre-save hook in User model will hash this
       gender,
@@ -85,8 +85,8 @@ export const signIn = async (req, res) => {
       user: {
         _id: user._id,
         email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
+        name: user.name,
+        address: user.address,
         isAdmin: user.isAdmin,
         age: user.age,
         ageUnit: user.ageUnit,

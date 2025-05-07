@@ -7,8 +7,8 @@ export default function SignUp() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
+    address: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -48,8 +48,8 @@ export default function SignUp() {
 
     try {
       const response = await axios.post("http://localhost:3000/api/auth/signup", {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
+        name: formData.name,
+        address: formData.address,
         email: formData.email,
         password: formData.password,
         gender: formData.gender,
@@ -59,8 +59,8 @@ export default function SignUp() {
 
       alert(response.data.message);
       setFormData({
-        firstName: "",
-        lastName: "",
+        name: "",
+        address: "",
         email: "",
         password: "",
         confirmPassword: "",
@@ -111,8 +111,8 @@ export default function SignUp() {
         </Typography>
 
         <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          <TextField id="firstName" label="First Name" value={formData.firstName} onChange={handleChange} fullWidth required />
-          <TextField id="lastName" label="Last Name" value={formData.lastName} onChange={handleChange} fullWidth required />
+          <TextField id="name" label="Name" value={formData.name} onChange={handleChange} fullWidth required />
+          <TextField id="address" label="Address" value={formData.address} onChange={handleChange} fullWidth required />
           <TextField id="email" label="Email" type="email" value={formData.email} onChange={handleChange} fullWidth required />
 
           <FormControl>
