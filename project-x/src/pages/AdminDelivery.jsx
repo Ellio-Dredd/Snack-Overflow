@@ -43,6 +43,7 @@ export default function AdminDelivery() {
               <th className="border border-gray-600 px-4 py-3 text-left">Order ID</th>
               <th className="border border-gray-600 px-4 py-3 text-left">Delivery Person</th>
               <th className="border border-gray-600 px-4 py-3 text-left">Address</th>
+              <th className="border border-gray-600 px-4 py-3 text-left">Items</th>
               <th className="border border-gray-600 px-4 py-3 text-left">Status</th>
               <th className="border border-gray-600 px-4 py-3 text-left">Update</th>
             </tr>
@@ -55,6 +56,7 @@ export default function AdminDelivery() {
                 </td>
                 <td className="border border-gray-700 px-4 py-3">{delivery.deliveryPerson}</td>
                 <td className="border border-gray-700 px-4 py-3">{delivery.deliveryAddress}</td>
+                <td className="border border-gray-700 px-4 py-3">{delivery.items}</td>
                 <td className="border border-gray-700 px-4 py-3">
                   <select
                     className="bg-gray-700 text-white px-2 py-1 rounded"
