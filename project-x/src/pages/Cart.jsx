@@ -50,28 +50,33 @@ export default function Cart() {
   const handleCheckout = async () => {
     try {
       const token = localStorage.getItem("token");
-
+  
       const userResponse = await axios.get("http://localhost:3000/api/auth/user", {
         headers: { Authorization: `Bearer ${token}` },
       });
+  
       const userId = userResponse.data._id;
-
-      const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-
-      // Create a delivery record
+      const userAddress = userResponse.data.address;  // Retrieving user address
+  
+      const totalPrice = cartItems.reduce(
+        (total, item) => total + item.price * item.quantity,
+        0
+      );
+  
+      // Create a delivery record with both userId and userAddress
       await axios.post("http://localhost:3000/api/delivery", {
         orderId: userId,
         deliveryPerson: "Assigned Soon",
-        deliveryAddress: "From user profile or prompt",
+        deliveryAddress: userAddress, // Passing the user's address
         estimatedDeliveryTime: new Date(Date.now() + 2 * 60 * 60 * 1000),
         items: cartItems,
-        total: totalPrice
+        total: totalPrice,
       });
-
+  
       alert("Order placed successfully!");
       setCartItems([]); // Clear cart after order
       await axios.delete("http://localhost:3000/api/cart");
-
+  
       navigate("/OrderConfirmation", {
         state: {
           trackingNo: userId,
