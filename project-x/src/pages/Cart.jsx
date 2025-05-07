@@ -9,7 +9,7 @@ export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const navigate = useNavigate();
 
-  // Fetch cart items when the component is mounted
+  // Fetch cart items 
   useEffect(() => {
     fetchCartItems();
   }, []);
@@ -30,7 +30,7 @@ export default function Cart() {
     }
   };
 
-  // Update quantity functions
+  // Update quantity 
   const increaseQuantity = async (id) => {
     await axios.put(`${API_URL}/increase/${id}`);
     fetchCartItems();
