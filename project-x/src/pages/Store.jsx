@@ -1,14 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Container,
-  Grid,
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Button,
-  Box,
-} from "@mui/material";
+import {Container,Grid,Card,CardContent,CardMedia,Typography,Button,Box,} from "@mui/material";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
@@ -94,7 +85,7 @@ export default function Store() {
 
   const handleBuyNow = async (product) => {
     const token = localStorage.getItem("token");
-    alert("Item added successfully.");
+    alert("Item purchased successfully.");
     if (!token) {
       alert("Please sign in to continue.");
       return;

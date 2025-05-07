@@ -1,14 +1,6 @@
 import { useState, useEffect } from "react";
 import Paper from "@mui/material/Paper";
-import {
-  TableContainer,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TablePagination,
-  TableRow,
-  Box,
+import {TableContainer,Table,TableBody,TableCell,TableHead,TablePagination,TableRow,Box,
 } from "@mui/material";
 import axios from "axios";
 import StoreADCard from "../components/StoreADCard"; // Make sure the path is correct

@@ -39,6 +39,7 @@ export default function Navbar() {
     { label: "Contact", to: "/Contact" },
     { label: "Delivery", to: "/Deliver" }
   ];
+  
 
   return (
     <>
