@@ -1,5 +1,6 @@
 
 import { Box,Typography, CssBaseline } from "@mui/material";
+import backgroundImage from "../assets/background.jpg"; // Adjust the path as necessary
 import UploadPrescription from "../components/PrescriptionCard"
 
 const CoverImage = () => {
@@ -8,7 +9,7 @@ const CoverImage = () => {
       <CssBaseline />
       <Box
         sx={{
-          backgroundImage: `url('https://cdn.discordapp.com/attachments/1162085898494693392/1368981876835876994/abstract-blur-shopping-mall.jpg?ex=681a3339&is=6818e1b9&hm=e17de01410f14365d1217e305c1b5fe11c4fed77c724c7a5f21a21124a7d21f6&')`,
+          backgroundImage: `url(${backgroundImage})`,
           marginTop: "-40px",
           backgroundSize: "cover",
           position: "relative",
