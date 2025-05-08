@@ -37,29 +37,32 @@ export default function Home() {
     >
       <CoverImage />
 
-      <Container maxWidth="lg" sx={{ mt: 6 }}>
-        <Typography
-          variant="h4"
-          align="center"
-          sx={{
-            mb: 4,
-            fontWeight: "bold",
-            color: "#1a237e",
-            fontFamily: "'Poppins', sans-serif",
-            marginTop: "-30px",
-          }}
-        >
+      <Container maxWidth="lg" sx={{ mt: 6, px: { xs: 2, sm: 3, md: 4 } }}>
+      <Typography
+        variant="h4"
+        align="center"
+        sx={{
+        mb: 4,
+        fontWeight: "bold",
+        color: "#1a237e",
+        fontFamily: "'Poppins', sans-serif",
+        mt: { xs: -2, sm: -3, md: -4 },
+      }}
+    >
           Explore Our Health Categories
         </Typography>
 
         <Box
           sx={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-            gap: 4,
-            justifyContent: "center",
-          }}
-        >
+          display: "grid",
+          gridTemplateColumns: {
+            xs: "1fr", // Single column on extra small screens
+            sm: "repeat(auto-fit, minmax(220px, 1fr))"
+          },
+          gap: { xs: 3, sm: 4 },
+          justifyContent: "center",
+      }}
+    >
           {categories.map((category, index) => (
             <Card
               key={index}
@@ -81,12 +84,13 @@ export default function Home() {
                 image={category.image}
                 alt={category.title}
                 sx={{
-                  height: "180px",  // Adjust the height to fit the box
-                  objectFit: "cover",  // Ensures the image covers the box
+                  height: { xs: 140, sm: 160, md: 180 }, // Responsive heights
+                  objectFit: "cover",
                   borderTopLeftRadius: "16px",
                   borderTopRightRadius: "16px",
-                }}
-              />
+                  }}
+                />
+
               <CardContent>
                 <Typography
                   variant="h6"

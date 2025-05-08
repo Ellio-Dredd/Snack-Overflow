@@ -1,7 +1,7 @@
 
 import { Box,Typography, CssBaseline } from "@mui/material";
 import backgroundImage from "../assets/background.jpg"; // Adjust the path as necessary
-import UploadPrescription from "../components/PrescriptionCard"
+
 
 const CoverImage = () => {
   return (
@@ -28,17 +28,17 @@ const CoverImage = () => {
           component="h1"
           sx={{
             position: "center",
-            marginBottom: "500px", // Adjust this value for spacing from the top
-            marginTop: "150px", // Adjust this value for spacing from the top
-            left: "50%", // Move to the center
+            marginBottom: "500px",
+            marginTop: "150px", 
+            left: "50%", 
             fontSize: "170px" ,
-            // transform: "translateX(-50%)", // Perfectly center the text
-            color: "black",// Adjust for visibility
-            WebkitTextStroke: "5px #bce4fc", // Text stroke for better visibility
+          
+            color: "black",
+            WebkitTextStroke: "5px #bce4fc", 
             fontWeight: "bold",
-            // zIndex: 0, // Text behind the image
+            
             fontFamily: "'Poppins', sans-serif",
-            // fontWeight: 400,
+            
 
           }}
         >
