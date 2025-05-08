@@ -9,7 +9,7 @@ export default function Deliver() {
 
   const Track = async () => {
     try {
-      // Send the tracking number (which is actually the orderId) to the backend
+      // Send  the orderId to the backend
       const response = await axios.get(`http://localhost:3000/api/delivery/${trackingNo}`);
       setTrackingInfo(response.data);  // Save the delivery info in state
     } catch (error) {

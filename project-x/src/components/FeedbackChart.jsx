@@ -9,7 +9,7 @@ const FeedbackChart = () => {
   const [chartData, setChartData] = useState(null);
 
   useEffect(() => {
-    axios.get('/api/feedbacks/analysis') // Adjust if your base URL is different
+    axios.get('/api/feedbacks/analysis') // api URL
       .then(response => {
         const data = response.data;
         setChartData({

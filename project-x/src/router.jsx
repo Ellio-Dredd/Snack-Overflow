@@ -2,7 +2,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { useContext } from "react";
 import AdminFeedback from "./pages/AdminFeedback";
 import Navbar from "./components/Navbar";
-import AdminNavbar from "./components/AdminNavbar"; // Make sure this import is correct
+import AdminNavbar from "./components/AdminNavbar"; 
 import Home from './pages/Home';
 import Contact from './pages/Contact';
 import Footer from "./components/Footer";
@@ -20,7 +20,7 @@ import AdminRoute from "./components/AdminRoute";
 import { UserContext } from "./UserContext";
 import Deliver from "./pages/Deliver";
 
-import AdminDelivery from "./pages/AdminDelivery"; // Adjust the import based on your file structure;
+import AdminDelivery from "./pages/AdminDelivery"; 
 
 
 export default function AppRouter() {
@@ -30,10 +30,10 @@ export default function AppRouter() {
   // Check if route is an admin route
   const isAdminRoute = location.pathname.startsWith('/admin');
   
-  // Check if user is an admin - adjust this based on your user data structure
+  // Check if user is an admin 
   const isAdmin = user && (user.role === 'admin' || user.isAdmin === true);
   
-  // For debugging - remove this in production
+  // For debugging 
   console.log('Current path:', location.pathname);
   console.log('Is admin route:', isAdminRoute);
   console.log('User:', user);

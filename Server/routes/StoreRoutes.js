@@ -1,6 +1,6 @@
 const express = require("express");
 const { AddItem, getAllItems ,deleteItem, updateItem } = require("../controllers/StoreController");
-const authenticateJWT = require('../middleware/authenticateJWT'); // Correct CommonJS import
+const authenticateJWT = require('../middleware/authenticateJWT'); 
 
 const router = express.Router();
 
@@ -8,7 +8,7 @@ const router = express.Router();
 router.post("/Store", AddItem);
 
 // GET route to fetch items (authentication required)
-router.get("/Store", authenticateJWT, getAllItems);  // Add the JWT middleware here
+router.get("/Store", authenticateJWT, getAllItems);  
 
 
 router.delete("/:id", authenticateJWT, deleteItem);
