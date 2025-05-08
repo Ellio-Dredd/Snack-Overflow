@@ -17,7 +17,8 @@ const deliverySchema = new mongoose.Schema({
       quantity: Number
     }
   ],
-  total: { type: Number, required: true }
+  total: { type: Number, required: true },
+  name:{type:String,required: true}
 }, { timestamps: true });
 
 
