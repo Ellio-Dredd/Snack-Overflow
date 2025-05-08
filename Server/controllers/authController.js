@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 // Sign Up controller
-// Fixed Sign Up controller
+
 export const signUp = async (req, res) => {
   const {
     name,
@@ -32,7 +32,7 @@ export const signUp = async (req, res) => {
       name,
       address,
       email,
-      password, // The pre-save hook in User model will hash this
+      password,
       gender,
       age,
       ageUnit
@@ -84,7 +84,7 @@ export const signIn = async (req, res) => {
       token,
       user: {
         _id: user._id,
-        userId: user.userId, // Add this line
+        userId: user.userId, 
         email: user.email,
         name: user.name,
         address: user.address,
@@ -107,7 +107,7 @@ export const signIn = async (req, res) => {
 // User info controller (for getting user details after login)
 export const user = async (req, res) => {
   try {
-    // req.user is populated by the authMiddleware with the authenticated user's data
+    
     const user = await User.findById(req.user.userId).select('-password'); // Exclude password for security
     res.json(user);
   } catch (err) {

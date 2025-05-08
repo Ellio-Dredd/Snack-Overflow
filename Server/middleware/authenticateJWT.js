@@ -20,5 +20,5 @@ const authenticateJWT = (req, res, next) => {
 };
 
 
-module.exports = authenticateJWT;  // Use module.exports for CommonJS
+module.exports = authenticateJWT;  
 

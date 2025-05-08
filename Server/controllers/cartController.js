@@ -1,11 +1,11 @@
 const CartItem = require("../models/CartItem");
 
-const Deliver = require("../models/Deliver");  // Assuming you have created the Deliver model for orders
+const Deliver = require("../models/Deliver"); 
 
 
 // Get all cart items
 exports.getCartItems = async (req, res) => {
-    const userId = req.query.userID; // Or get from JWT later
+    const userId = req.query.userID; 
   
     if (!userId) {
       return res.status(400).json({ message: "User ID is required" });

@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { TextField, Button, Typography, Paper, Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { useNavigate } from 'react-router-dom';  // Import useNavigate for navigation
+import { useNavigate } from 'react-router-dom'; 
 import { UserContext } from '../UserContext';
 
 export default function SignIn() {
