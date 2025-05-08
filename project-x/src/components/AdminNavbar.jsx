@@ -31,13 +31,14 @@ export default function AdminNavbar() {
     return `${parts[0]?.[0] || ""}${parts[1]?.[0] || ""}`.toUpperCase();
   };
 
-  // Admin navigation items  
+  // Admin navigation items   
   const navItems = [
     { label: "Dashboard", to: "/admin/dashboard" },
     { label: "Store Management", to: "/admin/store" }, 
     { label: "Feedback", to: "/admin/feedback" },
     { label: "Appointments", to: "/admin/panel" },
-    { label: "Delivey", to: "/admin/deliveries" }
+    { label: "Delivey", to: "/admin/deliveries" },
+    { label: "Users", to: "/admin/Users" },
   ];
 
   return (
