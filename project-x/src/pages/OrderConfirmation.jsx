@@ -5,7 +5,7 @@ import { Container, Typography, Button, Box } from "@mui/material";
 
 export default function OrderConfirmation() {
   const location = useLocation();
-  const { trackingNo = "", items = [], total = 0 } = location.state || {};
+  const { trackingNo, items, total } = location.state || {}; // Get order details from location state
 
   const generatePdf = () => {
     const doc = new jsPDF();
@@ -13,7 +13,7 @@ export default function OrderConfirmation() {
     doc.text("e-Bill", 14, 20);
     doc.setFontSize(12);
     doc.text("Thank you for your order!", 14, 30);
-    doc.text("Total: Rs. ${total}/=", 14, 40);
+    doc.text(`Total: Rs. ${total}/=`, 14, 40);
 
     const tableData = items.map((item, index) => [
       index + 1,
@@ -55,7 +55,6 @@ export default function OrderConfirmation() {
       >
         Your order has been placed successfully.
       </Typography>
-     
 
       <Box mt={9} sx={{ textAlign: "left", maxWidth: "600px", margin: "0 auto", marginTop: "40px" }}>
         <Typography
@@ -124,5 +123,5 @@ export default function OrderConfirmation() {
         Download e-Bill PDF
       </Button>
     </Container>
-  );
+  );
 }
