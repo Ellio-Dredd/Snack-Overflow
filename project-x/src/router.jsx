@@ -21,6 +21,7 @@ import { UserContext } from "./UserContext";
 import Deliver from "./pages/Deliver";
 
 import AdminDelivery from "./pages/AdminDelivery"; 
+import AdminUsers from "./pages/AdminUsers";
 
 
 export default function AppRouter() {
@@ -66,6 +67,7 @@ export default function AppRouter() {
           <Route path="/admin/feedback" element={<AdminRoute><AdminFeedback /></AdminRoute>} />
           <Route path="/admin/store" element={<AdminRoute><AdminStore /></AdminRoute>} />
           <Route path="/admin/panel" element={<AdminRoute><AdminPanel /></AdminRoute>} />
+          <Route path="/admin/Users" element={<AdminUsers />} />
 
           <Route path="/admin/deliveries" element={<AdminDelivery />} />
 
