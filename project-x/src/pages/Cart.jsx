@@ -86,25 +86,29 @@ export default function Cart() {
       const userId = userResponse.data._id;
       const userAddress = userResponse.data.address;
 
+
+
+      const userName = userResponse.data.name;
+  
+
       const totalPrice = cartItems.reduce(
         (total, item) => total + item.price * item.quantity,
         0
       );
 
-      await axios.post(
-        "http://localhost:3000/api/delivery",
-        {
-          orderId: userId,
-          deliveryPerson: "Assigned Soon",
-          deliveryAddress: userAddress,
-          estimatedDeliveryTime: new Date(Date.now() + 2 * 60 * 60 * 1000),
-          items: cartItems,
-          total: totalPrice,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+
+      await axios.post("http://localhost:3000/api/delivery", {
+        orderId: userId,
+        deliveryPerson: "Assigned Soon",
+        deliveryAddress: userAddress,
+        estimatedDeliveryTime: new Date(Date.now() + 2 * 60 * 60 * 1000),
+        items: cartItems,
+        total: totalPrice,
+        name:userName,
+      }, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
 
       alert("Order placed successfully!");
       setCartItems([]);

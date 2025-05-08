@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 const deliverySchema = new mongoose.Schema({
 
-  orderId: { type: mongoose.Schema.Types.ObjectId,  required: true },//add ref: 'Order',
+  orderId: { type: mongoose.Schema.Types.ObjectId,  required: true },
 
   deliveryPerson: { type: String, required: true },
   deliveryAddress: { type: String, required: true },
@@ -17,7 +17,8 @@ const deliverySchema = new mongoose.Schema({
       quantity: Number
     }
   ],
-  total: { type: Number, required: true }
+  total: { type: Number, required: true },
+  name:{type:String,required: true}
 }, { timestamps: true });
 
 
