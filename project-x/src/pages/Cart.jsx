@@ -1,4 +1,4 @@
-import {Container,Typography,Card,CardContent,Button,Box,Divider,} from "@mui/material";
+import { Container, Typography, Card, CardContent, Button, Box, Divider, CardMedia } from "@mui/material";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -55,8 +55,6 @@ export default function Cart() {
     }
   };
 
-  
-
   const increaseQuantity = async (id) => {
     await axios.put(`${API_URL}/increase/${id}`);
     fetchCartItems();
@@ -85,17 +83,12 @@ export default function Cart() {
 
       const userId = userResponse.data._id;
       const userAddress = userResponse.data.address;
-
-
-
       const userName = userResponse.data.name;
-  
 
       const totalPrice = cartItems.reduce(
         (total, item) => total + item.price * item.quantity,
         0
       );
-
 
       await axios.post("http://localhost:3000/api/delivery", {
         orderId: userId,
@@ -104,11 +97,10 @@ export default function Cart() {
         estimatedDeliveryTime: new Date(Date.now() + 2 * 60 * 60 * 1000),
         items: cartItems,
         total: totalPrice,
-        name:userName,
+        name: userName,
       }, {
         headers: { Authorization: `Bearer ${token}` },
       });
-
 
       alert("Order placed successfully!");
       setCartItems([]);
@@ -138,10 +130,10 @@ export default function Cart() {
     (total, item) => total + item.price * item.quantity,
     0
   );
-  
+
   const handleReorder = async (orderItems) => {
     const token = localStorage.getItem("token");
-  
+
     try {
       const userResponse = await axios.get(
         "http://localhost:3000/api/auth/user",
@@ -150,18 +142,18 @@ export default function Cart() {
         }
       );
       const userID = userResponse.data._id;
-  
+
       const reorderedItems = orderItems.map((item) => ({
         name: item.name,
         price: item.price,
         quantity: item.quantity,
       }));
-  
+
       const total = reorderedItems.reduce(
         (total, item) => total + item.price * item.quantity,
         0
       );
-  
+
       const response = await axios.post(
         "http://localhost:3000/api/delivery",
         {
@@ -173,17 +165,16 @@ export default function Cart() {
           total: total,
         }
       );
-  
+
       const newOrder = response.data;
       alert("Order placed successfully!");
-      
+
       navigate("/OrderConfirmation", {
         state: {
           trackingNo: newOrder._id,
           items: reorderedItems,
           total: total,
         },
-        
       });
     } catch (error) {
       console.error("Error reordering items:", error.message || error);
@@ -193,7 +184,6 @@ export default function Cart() {
       alert("Error reordering items!");
     }
   };
-  
 
   return (
     <div
@@ -237,6 +227,12 @@ export default function Cart() {
                 boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
               }}
             >
+              <CardMedia
+                component="img"
+                sx={{ width: 150, objectFit: "cover" }}
+                image={item.image || "https://via.placeholder.com/150"}
+                alt={item.name}
+              />
               <Box sx={{ display: "flex", flexDirection: "column", flex: 1 }}>
                 <CardContent>
                   <Typography variant="h6" sx={{ fontWeight: 600 }}>
@@ -248,7 +244,7 @@ export default function Cart() {
                   <Box
                     display="flex"
                     alignItems="center"
-                    justifyContent="flex-end"
+                    justifyContent="center"
                     mt={2}
                   >
                     <Button
@@ -282,37 +278,39 @@ export default function Cart() {
           ))}
         </Box>
 
-        <Box textAlign="right" mt={4}>
-          <Divider />
-          <Typography
-            variant="h5"
-            sx={{
-              mt: 2,
-              fontWeight: "600",
-              fontFamily: "'Poppins', sans-serif",
-              textAlign: "right",
-              ml: 1,
-              color: "#333",
-            }}
-          >
-            Total: Rs. {totalPrice}/=
-          </Typography>
+        {cartItems.length > 0 && (
+          <Box textAlign="right" mt={4}>
+            <Divider />
+            <Typography
+              variant="h5"
+              sx={{
+                mt: 2,
+                fontWeight: "600",
+                fontFamily: "'Poppins', sans-serif",
+                textAlign: "right",
+                ml: 1,
+                color: "#333",
+              }}
+            >
+              Total: Rs. {totalPrice}/=
+            </Typography>
 
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleCheckout}
-            sx={{
-              mt: 2,
-              borderRadius: "30px",
-              textTransform: "none",
-              fontWeight: "bold",
-              px: 4,
-            }}
-          >
-            Checkout
-          </Button>
-        </Box>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleCheckout}
+              sx={{
+                mt: 2,
+                borderRadius: "30px",
+                textTransform: "none",
+                fontWeight: "bold",
+                px: 4,
+              }}
+            >
+              Checkout
+            </Button>
+          </Box>
+        )}
 
         <Typography
           variant="h4"
@@ -334,37 +332,47 @@ export default function Cart() {
             No previous orders found.
           </Typography>
         ) : (
-          previousOrders.map((order) => (
-            <Card
-              key={order._id}
-              sx={{
-                display: "flex",
-                mb: 2,
-                borderRadius: "15px",
-                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                padding: 2,
-              }}
-            >
-              <Box sx={{ flex: 1 }}>
-                <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                  Order ID: {order._id}
-                </Typography>
-                {order.items.map((item, index) => (
-                  <Typography key={index} color="text.secondary">
-                    {item.name} - {item.quantity} x Rs. {item.price}
+          previousOrders.map((order) => {
+            const orderTotal = order.items.reduce(
+              (total, item) => total + item.price * item.quantity,
+              0
+            );
+
+            return (
+              <Card
+                key={order._id}
+                sx={{
+                  display: "flex",
+                  mb: 2,
+                  borderRadius: "15px",
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                  padding: 2,
+                }}
+              >
+                <Box sx={{ flex: 1 }}>
+                  <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                    Order ID: {order._id}
                   </Typography>
-                ))}
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => handleReorder(order.items)}
-                  sx={{ mt: 2, borderRadius: "20px" }}
-                >
-                  Reorder
-                </Button>
-              </Box>
-            </Card>
-          ))
+                  {order.items.map((item, index) => (
+                    <Typography key={index} color="text.secondary">
+                      {item.name} - {item.quantity} x Rs. {item.price}
+                    </Typography>
+                  ))}
+                  <Typography variant="h6" sx={{ fontWeight: 600, marginTop: "10px" }}>
+                    Total: Rs. {orderTotal}
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handleReorder(order.items)}
+                    sx={{ mt: 2, borderRadius: "20px" }}
+                  >
+                    Reorder
+                  </Button>
+                </Box>
+              </Card>
+            );
+          })
         )}
       </Container>
     </div>

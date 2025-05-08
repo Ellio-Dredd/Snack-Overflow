@@ -8,29 +8,67 @@ export default function OrderConfirmation() {
   const { trackingNo, items, total } = location.state || {}; // Get order details from location state
 
   const generatePdf = () => {
-    const doc = new jsPDF();
-    doc.setFontSize(18);
-    doc.text("e-Bill", 14, 20);
-    doc.setFontSize(12);
-    doc.text("Thank you for your order!", 14, 30);
-    doc.text(`Total: Rs. ${total}/=`, 14, 40);
+  const doc = new jsPDF();
 
-    const tableData = items.map((item, index) => [
-      index + 1,
-      item.name,
-      item.quantity,
-      `Rs. ${item.price}`,
-      `Rs. ${item.quantity * item.price}`,
-    ]);
+  // Header Section
+  doc.setFontSize(20);
+  doc.setFont('helvetica', 'bold');
+  doc.text("Rajapakse Pharmacy & Grocery", 14, 20);
+  doc.setFontSize(12);
+  doc.text("Thank you for your order!", 14, 30);
 
-    autoTable(doc, {
-      head: [["#", "Item", "Qty", "Price", "Subtotal"]],
-      body: tableData,
-      startY: 50,
-    });
+  // Order ID
+  doc.setFontSize(12);
+  doc.text(`Order ID: ${trackingNo}`, 14, 40);
 
-    doc.save("e-bill.pdf");
-  };
+  // Order Details Section
+  const tableData = items.map((item, index) => [
+    index + 1,
+    item.name,
+    item.quantity,
+    `Rs. ${item.price}`,
+    `Rs. ${item.quantity * item.price}`,
+  ]);
+
+  // Table header
+  autoTable(doc, {
+    head: [["#", "Item", "Qty", "Price", "Subtotal"]],
+    body: tableData,
+    startY: 50,
+    styles: {
+      fontSize: 10,
+      cellPadding: 5,
+      halign: 'center',
+      valign: 'middle',
+      lineColor: [44, 62, 80],
+      lineWidth: 0.3,
+    },
+    headStyles: {
+      fillColor: [52, 152, 219],
+      textColor: [255, 255, 255],
+      fontStyle: 'bold',
+    },
+    alternateRowStyles: {
+      fillColor: [236, 240, 241],
+    },
+    margin: { top: 10, bottom: 30 },
+  });
+
+  // Total Section
+  const totalY = doc.lastAutoTable.finalY + 10;
+  doc.setFontSize(14);
+  doc.setFont('helvetica', 'bold');
+  doc.text(`Total: Rs. ${total}/=`, 14, totalY);
+
+  // Footer Section
+  const footerY = doc.internal.pageSize.height - 20;
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'normal');
+  doc.text("Thank you for shopping with us!", 14, footerY);
+
+  // Save the PDF
+  doc.save("e-bill.pdf");
+};
 
   return (
     <Container sx={{ textAlign: "center", mt: 5, padding: "20px" }}>
@@ -56,7 +94,18 @@ export default function OrderConfirmation() {
         Your order has been placed successfully.
       </Typography>
 
-      <Box mt={9} sx={{ textAlign: "left", maxWidth: "600px", margin: "0 auto", marginTop: "40px" }}>
+      <Box
+        mt={5}
+        sx={{
+          textAlign: "left",
+          maxWidth: "600px",
+          margin: "0 auto",
+          backgroundColor: "#f9f9f9",
+          padding: "20px",
+          borderRadius: "8px",
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+        }}
+      >
         <Typography
           variant="h5"
           sx={{

@@ -3,7 +3,7 @@ const Deliver = require("../models/Deliver");
 // Save a new delivery
 exports.createDelivery = async (req, res) => {
   try {
-    const { orderId, deliveryPerson, deliveryAddress, estimatedDeliveryTime, items, total,name } = req.body;
+    const { orderId, deliveryPerson, deliveryAddress, estimatedDeliveryTime, items, total, name } = req.body;
 
     if (!items || items.length === 0) {
       return res.status(400).json({ message: "Items are required" });
@@ -14,7 +14,7 @@ exports.createDelivery = async (req, res) => {
     }
 
     const newDelivery = new Deliver({
-      orderId, // Use the userID as orderId here
+      orderId, // This should be the user ID or order ID
       deliveryPerson,
       deliveryAddress,
       estimatedDeliveryTime,
@@ -24,7 +24,9 @@ exports.createDelivery = async (req, res) => {
     });
 
     await newDelivery.save();
-    res.status(201).json(newDelivery);  // Successfully saved the delivery order
+
+    // Respond with the created delivery
+    res.status(201).json(newDelivery);
   } catch (err) {
     console.error("Error creating delivery:", err);
     res.status(500).json({ message: "Server error" });

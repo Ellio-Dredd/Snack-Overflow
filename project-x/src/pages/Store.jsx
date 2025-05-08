@@ -84,50 +84,52 @@ export default function Store() {
   };
 
   const handleBuyNow = async (product) => {
-    const token = localStorage.getItem("token");
-    alert("Item purchased successfully.");
-    if (!token) {
-      alert("Please sign in to continue.");
-      return;
-    }
+  const token = localStorage.getItem("token");
 
-    if (!user) {
-      alert("User not loaded yet. Try again.");
-      return;
-    }
+  if (!token) {
+    alert("Please sign in to continue.");
+    return;
+  }
 
-    const item = {
-      name: product.ItemName,
-      price: product.ItemPrice,
-      quantity: 1,
-      image: product.message,
-    };
+  if (!user) {
+    alert("User not loaded yet. Try again.");
+    return;
+  }
 
-    const total = item.price * item.quantity;
-
-    try {
-      await axios.post("http://localhost:3000/api/delivery", {
-        orderId: user._id,
-        deliveryPerson: "Assigned Soon",
-        deliveryAddress: "Address from user profile or form",
-        estimatedDeliveryTime: new Date(Date.now() + 2 * 60 * 60 * 1000),
-        items: [item],
-        total: total,
-      });
-
-      navigate("/OrderConfirmation", {
-        state: {
-          trackingNo: user._id,
-          items: [item],
-          total: total,
-        },
-      });
-    } catch (error) {
-      console.error("Error placing order:", error);
-      alert("Order placement failed.");
-    }
+  const item = {
+    name: product.ItemName,
+    price: product.ItemPrice,
+    quantity: 1,
+    image: product.message,
   };
 
+  const total = item.price * item.quantity;
+
+  try {
+    const response = await axios.post("http://localhost:3000/api/delivery", {
+      orderId: user._id, 
+      deliveryPerson: "Assigned Soon",  
+      deliveryAddress: "Address from user profile or form",  
+      estimatedDeliveryTime: new Date(Date.now() + 2 * 60 * 60 * 1000), 
+      items: [item],
+      total: total,
+      name: user.name,  
+    });
+
+  
+    navigate("/OrderConfirmation", {
+      state: {
+        trackingNo: response.data._id,  
+        items: [item],
+        total: total,
+      },
+    });
+    alert("Order placed successfully.");
+  } catch (error) {
+    console.error("Error placing order:", error);
+    alert("Order placement failed.");
+  }
+};
   return (
     <div
       style={{
