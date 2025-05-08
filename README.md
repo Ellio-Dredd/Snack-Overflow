@@ -2,9 +2,9 @@
 
 <div align="center">
   
-  ![Snack Overflow Logo](https://via.placeholder.com/200x200?text=Snack+Overflow)
+ ## Rajapakse Pharmacy WEB APP
   
-  **An interactive web application for exploring, rating, and ordering snacks online.**
+  **An interactive web application for odering pharmaceutical iteams & E-channelling.**
   
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
   [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
@@ -18,12 +18,12 @@
   - JWT-based authentication
 
 - **🍪 Snack Exploration**
-  - Browse snacks by categories
+  - Browse pharmaceutical iteams
   - Search functionality
-  - Detailed snack information pages
+  
 
 - **🛒 Shopping Experience**
-  - Add snacks to cart
+  - Add pharmaceutical iteams to cart
   - Adjust quantities
   - Place and track orders
 
