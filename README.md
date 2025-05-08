@@ -1,43 +1,46 @@
-Snack Overflow
-Overview
-Snack Overflow is an interactive application where users can explore, rate, and order snacks online. The platform allows users to browse through various snack categories, view detailed information about each item, and place orders. Admins can manage inventory and user data.
+🍿 Snack Overflow
+Snack Overflow is an interactive web application that allows users to explore, rate, and order snacks online. It features a user-friendly interface for browsing snack categories and placing orders, as well as a robust admin panel for managing inventory and user data.
 
-Features
-User authentication and management.
+🚀 Features
+🔐 User Authentication (Login / Signup)
 
-Browse snack categories.
+🍪 Browse Snacks by Category
 
-Order snacks.
+🛒 Add Snacks to Cart & Place Orders
 
-Admin panel for managing users and products.
+🧑‍💼 Admin Dashboard for:
 
-Technologies Used
-React
+Managing Products
 
-Node.js (Express)
+Managing Users
 
-MongoDB
+🛠️ Tech Stack
+Frontend: React + MUI
 
-Mongoose
+Backend: Node.js + Express
 
-JWT for authentication
+Database: MongoDB with Mongoose
 
-Setup
-Clone the repository:
+Authentication: JWT (JSON Web Tokens)
 
+📦 Setup Instructions
+1. Clone the Repository
 bash
 Copy
 Edit
 git clone https://github.com/Ellio-Dredd/Snack-Overflow.git
-Install dependencies:
-
+cd Snack-Overflow
+2. Install Dependencies
 bash
 Copy
 Edit
 npm install
-Start the server:
-
+3. Start the Server
 bash
 Copy
 Edit
 npm start
+⚠️ Make sure to set up your .env file with necessary configuration like MongoDB URI and JWT secret.
+
+📬 Contact
+For any queries or suggestions, feel free to open an issue or contact the team via GitHu
