@@ -1,4 +1,4 @@
-import { Container, Typography, Card, CardMedia, CardContent, Button, Box, Divider } from "@mui/material";
+import {Container,Typography,Card,CardContent,Button,Box,Divider,} from "@mui/material";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -10,21 +10,22 @@ export default function Cart() {
   const [previousOrders, setPreviousOrders] = useState([]);
   const navigate = useNavigate();
 
-  // Fetch cart items and previous orders when the component is mounted
   useEffect(() => {
     fetchCartItems();
     fetchPreviousOrders();
   }, []);
 
-  // Fetch the current cart items
   const fetchCartItems = async () => {
     const token = localStorage.getItem("token");
     if (!token) return;
 
     try {
-      const userResponse = await axios.get("http://localhost:3000/api/auth/user", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const userResponse = await axios.get(
+        "http://localhost:3000/api/auth/user",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       const userID = userResponse.data._id;
       const response = await axios.get(`${API_URL}?userID=${userID}`);
       setCartItems(response.data);
@@ -33,68 +34,29 @@ export default function Cart() {
     }
   };
 
-  // Fetch the user's previous orders
   const fetchPreviousOrders = async () => {
     const token = localStorage.getItem("token");
     if (!token) return;
 
     try {
-      const userResponse = await axios.get("http://localhost:3000/api/auth/user", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const userResponse = await axios.get(
+        "http://localhost:3000/api/auth/user",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       const userID = userResponse.data._id;
-      const response = await axios.get(`http://localhost:3000/api/delivery?userId=${userID}`);
+      const response = await axios.get(
+        `http://localhost:3000/api/delivery?userId=${userID}`
+      );
       setPreviousOrders(response.data);
     } catch (error) {
       console.error("Error fetching previous orders:", error);
     }
   };
 
-  // Handle the reordering of previous items
-  const handleReorder = async (orderItems) => {
-    const token = localStorage.getItem("token");
-  
-    try {
-      const userResponse = await axios.get("http://localhost:3000/api/auth/user", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-  
-      const userID = userResponse.data._id; // This is the orderId
-  
-      // Send the reorder request using userID as orderId
-      const reorderedItems = orderItems.map(item => ({
-        name: item.name,
-        price: item.price,
-        quantity: item.quantity
-      }));
-  
-      // Create the delivery order using userID as orderId
-      const response = await axios.post("http://localhost:3000/api/delivery", {
-        orderId: userID,           // Use userID as orderId
-        deliveryPerson: "Assigned Soon",
-        deliveryAddress: userResponse.data.address,
-        estimatedDeliveryTime: new Date(Date.now() + 2 * 60 * 60 * 1000), // Example: 2 hours from now
-        items: reorderedItems,
-        total: reorderedItems.reduce((total, item) => total + item.price * item.quantity, 0)
-      });
-  
-      console.log("Delivery created:", response.data);
-      alert("Reordered items successfully!");
-      fetchCartItems();  // Refresh cart items after reorder
-  
-    } catch (error) {
-      console.error("Error reordering items:", error.message || error);
-      if (error.response) {
-        console.error("Error response:", error.response.data);
-      }
-      alert("Error reordering items!");
-    }
-  };
-  
-  
   
 
-  // Update quantity functions
   const increaseQuantity = async (id) => {
     await axios.put(`${API_URL}/increase/${id}`);
     fetchCartItems();
@@ -110,14 +72,16 @@ export default function Cart() {
     fetchCartItems();
   };
 
-  // Handle checkout
   const handleCheckout = async () => {
     const token = localStorage.getItem("token");
 
     try {
-      const userResponse = await axios.get("http://localhost:3000/api/auth/user", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const userResponse = await axios.get(
+        "http://localhost:3000/api/auth/user",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       const userId = userResponse.data._id;
       const userAddress = userResponse.data.address;
@@ -127,16 +91,20 @@ export default function Cart() {
         0
       );
 
-      await axios.post("http://localhost:3000/api/delivery", {
-        orderId: userId,
-        deliveryPerson: "Assigned Soon",
-        deliveryAddress: userAddress,
-        estimatedDeliveryTime: new Date(Date.now() + 2 * 60 * 60 * 1000),
-        items: cartItems,
-        total: totalPrice,
-      }, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.post(
+        "http://localhost:3000/api/delivery",
+        {
+          orderId: userId,
+          deliveryPerson: "Assigned Soon",
+          deliveryAddress: userAddress,
+          estimatedDeliveryTime: new Date(Date.now() + 2 * 60 * 60 * 1000),
+          items: cartItems,
+          total: totalPrice,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       alert("Order placed successfully!");
       setCartItems([]);
@@ -162,8 +130,66 @@ export default function Cart() {
     }
   };
 
-  // Calculate total price for the current cart items
-  const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  const totalPrice = cartItems.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
+  
+  const handleReorder = async (orderItems) => {
+    const token = localStorage.getItem("token");
+  
+    try {
+      const userResponse = await axios.get(
+        "http://localhost:3000/api/auth/user",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const userID = userResponse.data._id;
+  
+      const reorderedItems = orderItems.map((item) => ({
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+      }));
+  
+      const total = reorderedItems.reduce(
+        (total, item) => total + item.price * item.quantity,
+        0
+      );
+  
+      const response = await axios.post(
+        "http://localhost:3000/api/delivery",
+        {
+          orderId: userID,
+          deliveryPerson: "Assigned Soon",
+          deliveryAddress: userResponse.data.address,
+          estimatedDeliveryTime: new Date(Date.now() + 2 * 60 * 60 * 1000),
+          items: reorderedItems,
+          total: total,
+        }
+      );
+  
+      const newOrder = response.data;
+      alert("Order placed successfully!");
+      
+      navigate("/OrderConfirmation", {
+        state: {
+          trackingNo: newOrder._id,
+          items: reorderedItems,
+          total: total,
+        },
+        
+      });
+    } catch (error) {
+      console.error("Error reordering items:", error.message || error);
+      if (error.response) {
+        console.error("Error response:", error.response.data);
+      }
+      alert("Error reordering items!");
+    }
+  };
+  
 
   return (
     <div
@@ -207,12 +233,6 @@ export default function Cart() {
                 boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
               }}
             >
-              <CardMedia
-                component="img"
-                sx={{ width: 150, objectFit: "cover" }}
-                image={item.image || "https://via.placeholder.com/150"}
-                alt={item.name}
-              />
               <Box sx={{ display: "flex", flexDirection: "column", flex: 1 }}>
                 <CardContent>
                   <Typography variant="h6" sx={{ fontWeight: 600 }}>
@@ -224,7 +244,7 @@ export default function Cart() {
                   <Box
                     display="flex"
                     alignItems="center"
-                    marginLeft="348px"
+                    justifyContent="flex-end"
                     mt={2}
                   >
                     <Button
@@ -311,21 +331,35 @@ export default function Cart() {
           </Typography>
         ) : (
           previousOrders.map((order) => (
-            <Box key={order._id} mb={3}>
-              <Typography variant="h6">Order ID: {order._id}</Typography>
-              {order.items.map((item) => (
-                <Typography key={item.name}>
-                  {item.name} - {item.quantity} x Rs. {item.price}
+            <Card
+              key={order._id}
+              sx={{
+                display: "flex",
+                mb: 2,
+                borderRadius: "15px",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                padding: 2,
+              }}
+            >
+              <Box sx={{ flex: 1 }}>
+                <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                  Order ID: {order._id}
                 </Typography>
-              ))}
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => handleReorder(order.items)}
-              >
-                Reorder
-              </Button>
-            </Box>
+                {order.items.map((item, index) => (
+                  <Typography key={index} color="text.secondary">
+                    {item.name} - {item.quantity} x Rs. {item.price}
+                  </Typography>
+                ))}
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => handleReorder(order.items)}
+                  sx={{ mt: 2, borderRadius: "20px" }}
+                >
+                  Reorder
+                </Button>
+              </Box>
+            </Card>
           ))
         )}
       </Container>
