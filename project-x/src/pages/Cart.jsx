@@ -7,13 +7,16 @@ const API_URL = "http://localhost:3000/api/cart";
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
+  const [previousOrders, setPreviousOrders] = useState([]);
   const navigate = useNavigate();
 
-  // Fetch cart items when the component is mounted
+  // Fetch cart items and previous orders when the component is mounted
   useEffect(() => {
     fetchCartItems();
+    fetchPreviousOrders();
   }, []);
 
+  // Fetch the current cart items
   const fetchCartItems = async () => {
     const token = localStorage.getItem("token");
     if (!token) return;
@@ -29,6 +32,67 @@ export default function Cart() {
       console.error("Error fetching cart items:", error);
     }
   };
+
+  // Fetch the user's previous orders
+  const fetchPreviousOrders = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+      const userResponse = await axios.get("http://localhost:3000/api/auth/user", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const userID = userResponse.data._id;
+      const response = await axios.get(`http://localhost:3000/api/delivery?userId=${userID}`);
+      setPreviousOrders(response.data);
+    } catch (error) {
+      console.error("Error fetching previous orders:", error);
+    }
+  };
+
+  // Handle the reordering of previous items
+  const handleReorder = async (orderItems) => {
+    const token = localStorage.getItem("token");
+  
+    try {
+      const userResponse = await axios.get("http://localhost:3000/api/auth/user", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+  
+      const userID = userResponse.data._id; // This is the orderId
+  
+      // Send the reorder request using userID as orderId
+      const reorderedItems = orderItems.map(item => ({
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity
+      }));
+  
+      // Create the delivery order using userID as orderId
+      const response = await axios.post("http://localhost:3000/api/delivery", {
+        orderId: userID,           // Use userID as orderId
+        deliveryPerson: "Assigned Soon",
+        deliveryAddress: userResponse.data.address,
+        estimatedDeliveryTime: new Date(Date.now() + 2 * 60 * 60 * 1000), // Example: 2 hours from now
+        items: reorderedItems,
+        total: reorderedItems.reduce((total, item) => total + item.price * item.quantity, 0)
+      });
+  
+      console.log("Delivery created:", response.data);
+      alert("Reordered items successfully!");
+      fetchCartItems();  // Refresh cart items after reorder
+  
+    } catch (error) {
+      console.error("Error reordering items:", error.message || error);
+      if (error.response) {
+        console.error("Error response:", error.response.data);
+      }
+      alert("Error reordering items!");
+    }
+  };
+  
+  
+  
 
   // Update quantity functions
   const increaseQuantity = async (id) => {
@@ -49,21 +113,25 @@ export default function Cart() {
   // Handle checkout
   const handleCheckout = async () => {
     const token = localStorage.getItem("token");
-  
+
     try {
       const userResponse = await axios.get("http://localhost:3000/api/auth/user", {
         headers: { Authorization: `Bearer ${token}` },
       });
-  
+
       const userId = userResponse.data._id;
       const userAddress = userResponse.data.address;
+
+
+
       const userName = userResponse.data.name;
   
+
       const totalPrice = cartItems.reduce(
         (total, item) => total + item.price * item.quantity,
         0
       );
-  
+
       await axios.post("http://localhost:3000/api/delivery", {
         orderId: userId,
         deliveryPerson: "Assigned Soon",
@@ -75,10 +143,10 @@ export default function Cart() {
       }, {
         headers: { Authorization: `Bearer ${token}` },
       });
-  
+
       alert("Order placed successfully!");
       setCartItems([]);
-  
+
       try {
         await axios.delete("http://localhost:3000/api/cart", {
           headers: { Authorization: `Bearer ${token}` },
@@ -86,7 +154,7 @@ export default function Cart() {
       } catch (deleteError) {
         console.error("Failed to clear cart:", deleteError);
       }
-  
+
       navigate("/OrderConfirmation", {
         state: {
           trackingNo: userId,
@@ -99,9 +167,8 @@ export default function Cart() {
       alert("Checkout failed!");
     }
   };
-  
 
-  // Calculate total price
+  // Calculate total price for the current cart items
   const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
   return (
@@ -170,7 +237,6 @@ export default function Cart() {
                       variant="contained"
                       size="small"
                       onClick={() => decreaseQuantity(item._id)}
-
                     >
                       -
                     </Button>
@@ -198,38 +264,75 @@ export default function Cart() {
           ))}
         </Box>
 
-        {cartItems.length > 0 && (
-          <Box textAlign="right" mt={4}>
-            <Divider />
-            <Typography
-              variant="h5"
-              sx={{
-                mt: 2,
-                fontWeight: "600",
-                fontFamily: "'Poppins', sans-serif",
-                textAlign: "right",
-                ml: 1,
-                color: "#333",
-              }}
-            >
-              Total: Rs. {totalPrice}/=
-            </Typography>
+        <Box textAlign="right" mt={4}>
+          <Divider />
+          <Typography
+            variant="h5"
+            sx={{
+              mt: 2,
+              fontWeight: "600",
+              fontFamily: "'Poppins', sans-serif",
+              textAlign: "right",
+              ml: 1,
+              color: "#333",
+            }}
+          >
+            Total: Rs. {totalPrice}/=
+          </Typography>
 
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleCheckout}
-              sx={{
-                mt: 2,
-                borderRadius: "30px",
-                textTransform: "none",
-                fontWeight: "bold",
-                px: 4,
-              }}
-            >
-              Checkout
-            </Button>
-          </Box>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleCheckout}
+            sx={{
+              mt: 2,
+              borderRadius: "30px",
+              textTransform: "none",
+              fontWeight: "bold",
+              px: 4,
+            }}
+          >
+            Checkout
+          </Button>
+        </Box>
+
+        <Typography
+          variant="h4"
+          align="center"
+          gutterBottom
+          style={{
+            fontWeight: "bold",
+            color: "#2a2a2a",
+            fontFamily: "'Poppins', sans-serif",
+            marginBottom: "30px",
+            marginTop: "50px",
+          }}
+        >
+          Previous Orders
+        </Typography>
+
+        {previousOrders.length === 0 ? (
+          <Typography variant="h6" align="center" color="text.secondary">
+            No previous orders found.
+          </Typography>
+        ) : (
+          previousOrders.map((order) => (
+            <Box key={order._id} mb={3}>
+              <Typography variant="h6">Order ID: {order._id}</Typography>
+              {order.items.map((item) => (
+                <Typography key={item.name}>
+                  {item.name} - {item.quantity} x Rs. {item.price}
+                </Typography>
+              ))}
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => handleReorder(order.items)}
+              >
+                Reorder
+              </Button>
+            </Box>
+          ))
         )}
       </Container>
     </div>

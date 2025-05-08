@@ -8,15 +8,19 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Button,
 } from "@mui/material";
 import axios from "axios";
-import StoreADCard from "./StoreADCard"; // Adjust the path accordingly
+import StoreADCard from "./StoreADCard";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
+// Column Definitions
 const columns = [
   { id: "ItemName", label: "Item Name", minWidth: 150 },
   { id: "ItemDes", label: "Item Description", minWidth: 200 },
   { id: "ItemPrice", label: "Item Price", minWidth: 100 },
-  { id: "message", label: "Image", minWidth: 250 },
+  { id: "message", label: "Image", minWidth: 150 },
   { id: "actions", label: "Actions", minWidth: 150 },
 ];
 
@@ -26,11 +30,11 @@ export default function StoreTable() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [editingItem, setEditingItem] = useState(null);
 
+  // Fetch data on load
   useEffect(() => {
     fetchData();
   }, []);
 
-  // Fetch store data
   const fetchData = async () => {
     try {
       const response = await axios.get("http://localhost:3000/api/Store");
@@ -40,18 +44,15 @@ export default function StoreTable() {
     }
   };
 
-  // Delete an item
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:3000/api/Store/${id}`);
-      // After deletion, filter out the item from the state
       setStore((prev) => prev.filter((item) => item._id !== id));
     } catch (err) {
       console.error("Delete error:", err);
     }
   };
 
-  // Edit an item (set the selected item to be edited)
   const handleEdit = (item) => {
     setEditingItem(item);
   };
@@ -65,15 +66,45 @@ export default function StoreTable() {
     setPage(0);
   };
 
+  const exportPDF = () => {
+    const doc = new jsPDF();
+    doc.text("Store Item List", 14, 10);
+
+    const tableColumn = columns
+      .filter((col) => col.id !== "actions" && col.id !== "message")
+      .map((col) => col.label);
+
+    const tableRows = store.map((item) =>
+      tableColumn.map((col) => {
+        if (col === "Image") return "Image not printable";
+        return item[columns.find((c) => c.label === col).id];
+      })
+    );
+
+    autoTable(doc, {
+      head: [tableColumn],
+      body: tableRows,
+      startY: 20,
+      styles: { fontSize: 8 },
+      theme: "grid",
+    });
+
+    doc.save("store_items.pdf");
+  };
+
   return (
     <>
-      {/* StoreADCard component for adding/updating items */}
+      {/* Form Card */}
       <StoreADCard
         editingItem={editingItem}
-        onSuccess={fetchData} // This will reload the store data after success
-        clearEdit={() => setEditingItem(null)} // Clears the editing state after successful submission
+        onSuccess={fetchData}
+        clearEdit={() => setEditingItem(null)}
       />
 
+      {/* Download Button */}
+      
+
+      {/* Table Display */}
       <Paper sx={{ width: "100%", overflow: "auto", mt: 3 }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="store table">
@@ -109,7 +140,6 @@ export default function StoreTable() {
                         />
                       </TableCell>
                       <TableCell>
-                        {/* Edit Button */}
                         <button
                           onClick={() => handleEdit(item)}
                           style={{
@@ -117,17 +147,22 @@ export default function StoreTable() {
                             padding: "4px 8px",
                             backgroundColor: "#4CAF50",
                             color: "white",
+                            border: "none",
+                            borderRadius: "4px",
+                            cursor: "pointer",
                           }}
                         >
                           Edit
                         </button>
-                        {/* Delete Button */}
                         <button
                           onClick={() => handleDelete(item._id)}
                           style={{
                             padding: "4px 8px",
                             backgroundColor: "red",
                             color: "white",
+                            border: "none",
+                            borderRadius: "4px",
+                            cursor: "pointer",
                           }}
                         >
                           Delete
@@ -149,6 +184,14 @@ export default function StoreTable() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+      <Button
+        variant="contained"
+        color="primary"
+        sx={{ mb: 2 }}
+        onClick={exportPDF}
+      >
+        Download as PDF
+      </Button>
     </>
   );
 }

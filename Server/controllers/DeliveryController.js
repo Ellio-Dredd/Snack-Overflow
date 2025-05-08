@@ -9,13 +9,12 @@ exports.createDelivery = async (req, res) => {
       return res.status(400).json({ message: "Items are required" });
     }
 
-    // Ensure delivery address is passed
     if (!deliveryAddress) {
       return res.status(400).json({ message: "Delivery address is required" });
     }
 
     const newDelivery = new Deliver({
-      orderId,
+      orderId, // Use the userID as orderId here
       deliveryPerson,
       deliveryAddress,
       estimatedDeliveryTime,
@@ -32,6 +31,7 @@ exports.createDelivery = async (req, res) => {
   }
 };
 
+
 // Get delivery by orderId
 exports.getDeliveryById = async (req, res) => {
   try {
@@ -47,4 +47,22 @@ exports.getDeliveryById = async (req, res) => {
     console.error("Error fetching delivery:", err);
     res.status(500).json({ message: "Server error" });
   }
+
 };
+
+exports.getDeliveriesByUser = async (req, res) => {
+  try {
+    const { userId } = req.query;
+    if (!userId) {
+      return res.status(400).json({ message: "userId is required" });
+    }
+
+    const deliveries = await Deliver.find({ orderId: userId }).sort({ createdAt: -1 });
+    res.json(deliveries);
+  } catch (err) {
+    console.error("Error fetching user's deliveries:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+
