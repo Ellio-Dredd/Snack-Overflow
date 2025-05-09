@@ -21,6 +21,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.15.0",
     "mongoose": "^8.12.2",
+    "pdfkit": "^0.17.1",
     "sentiment": "^5.0.2"
   },
   "devDependencies": {

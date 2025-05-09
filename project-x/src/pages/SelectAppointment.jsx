@@ -18,7 +18,7 @@ const SelectAppointment = () => {
 
   const handleNext = () => {
     if (selectedDate) {
-      navigate("/EnterDetails", { state: { selectedDate } });
+      navigate("/EnterDetails", { state: { selectedDate: selectedDate.toISOString() } });
     } else {
       alert("Please select a date.");
     }
@@ -61,7 +61,7 @@ const SelectAppointment = () => {
         </Typography>
 
         <Grid container spacing={4}>
-          {/* Left - Details */}
+          {/* ph details */}
           <Grid item xs={12} md={6}>
             <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>
               Rajapakse Pharmacy
@@ -78,7 +78,7 @@ const SelectAppointment = () => {
             </Box>
           </Grid>
 
-          {/* Right - Calendar */}
+          {/* calendar */}
           <Grid item xs={12} md={6} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Box
               sx={{
@@ -99,7 +99,7 @@ const SelectAppointment = () => {
           </Grid>
         </Grid>
 
-        {/* Button */}
+        {/* button */}
         <Box mt={4} textAlign="center">
           <Button
             variant="contained"

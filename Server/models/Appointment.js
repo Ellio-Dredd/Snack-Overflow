@@ -7,6 +7,8 @@ const appointmentSchema = new mongoose.Schema({
   doctor: { type: String, required: true },
   date: { type: Date, required: true },
   status: { type: String, enum: ["pending", "confirmed"], default: "pending" },
+  bookingNumber: { type: Number },
 });
 
 module.exports = mongoose.model("Appointment", appointmentSchema);
+
