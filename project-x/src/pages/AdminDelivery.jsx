@@ -1,11 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import {
+  Container, Typography, Table, TableHead, TableRow, TableCell, TableBody, Button, Box
+} from '@mui/material';
 import axios from 'axios';
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
+import html2canvas from 'html2canvas';
 
-export default function AdminDelivery() {
+const AdminDelivery = () => {
   const [deliveries, setDeliveries] = useState([]);
   const [statusUpdates, setStatusUpdates] = useState({});
+  const tableRef = useRef(null); // ref to the table for PDF
 
-  // Fetch deliveries on mount
   useEffect(() => {
     axios.get('/api/admin-delivery')
       .then(res => setDeliveries(res.data))
@@ -22,9 +28,7 @@ export default function AdminDelivery() {
 
     axios.patch(`/api/admin-delivery/${id}/status`, { status })
       .then(res => {
-        setDeliveries(prev =>
-          prev.map(del => (del._id === id ? res.data : del))
-        );
+        setDeliveries(prev => prev.map(del => (del._id === id ? res.data : del)));
         alert('Status updated successfully');
       })
       .catch(err => {
@@ -33,69 +37,98 @@ export default function AdminDelivery() {
       });
   };
 
-  return (
-    <nav className="p-6 bg-gray-900 text-white min-h-screen font-[Poppins,sans-serif]">
-      <h1 className="text-3xl font-bold mb-6 border-b border-gray-700 pb-2 text-blue-200">
-        Admin Panel - Manage Deliveries
-      </h1>
+  const handleDownloadPDF = () => {
+    const input = tableRef.current;
+    html2canvas(input).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('l', 'mm', 'a4');
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
-      <div className="overflow-x-auto">
-        <table className="table-auto w-full border border-gray-700 text-sm">
-          <thead className="bg-gray-800 text-left">
-            <tr>
-              <th className="border border-gray-600 px-4 py-3">Order ID</th>
-              <th className="border border-gray-600 px-4 py-3">Delivery Person</th>
-              <th className="border border-gray-600 px-4 py-3">Address</th>
-              <th className="border border-gray-600 px-4 py-3">Items</th>
-              <th className="border border-gray-600 px-4 py-3">Status</th>
-              <th className="border border-gray-600 px-4 py-3">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {deliveries.map(delivery => (
-              <tr key={delivery._id} className="hover:bg-gray-800 transition duration-150">
-                <td className="border border-gray-700 px-4 py-3">
-                  {delivery.orderId?.orderNumber || delivery.orderId?.customerName || delivery.orderId?._id || 'N/A'}
-                </td>
-                <td className="border border-gray-700 px-4 py-3">{delivery.deliveryPerson}</td>
-                <td className="border border-gray-700 px-4 py-3">{delivery.deliveryAddress}</td>
-                <td className="border border-gray-700 px-4 py-3">
-                      {Array.isArray(delivery.items) && delivery.items.length > 0 ? (
-                        <ul className="list-disc pl-5">
-                          {delivery.items.map((item, index) => (
-                            <li key={index}>
-                              {item.name} × {item.quantity}
-                            </li>
-                          ))}
-                        </ul>
-                      ) : (
-                        'No items'
-                      )}
-                </td>
-                <td className="border border-gray-700 px-4 py-3">
+      pdf.addImage(imgData, 'PNG', 0, 10, pdfWidth, pdfHeight);
+      pdf.save('delivery-report.pdf');
+    });
+  };
+
+  return (
+    <Container maxWidth="lg">
+      <Typography variant="h4" gutterBottom align="center">
+        Admin Panel - Manage Deliveries
+      </Typography>
+
+      <Box mt={4} ref={tableRef}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Order ID</TableCell>
+              <TableCell>Delivery Person</TableCell>
+              <TableCell>Address</TableCell>
+              <TableCell>Items</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {deliveries.map((delivery) => (
+              <TableRow key={delivery._id}>
+                <TableCell>{delivery.orderId?.orderNumber || 'N/A'}</TableCell>
+                <TableCell>{delivery.deliveryPerson}</TableCell>
+                <TableCell>{delivery.deliveryAddress}</TableCell>
+                <TableCell>
+                  {Array.isArray(delivery.items) && delivery.items.length > 0 ? (
+                    <ul>
+                      {delivery.items.map((item, index) => (
+                        <li key={index}>
+                          {item.name} × {item.quantity}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    'No items'
+                  )}
+                </TableCell>
+                <TableCell>
                   <select
-                    className="bg-gray-700 text-white px-2 py-1 rounded"
                     value={statusUpdates[delivery._id] || delivery.status}
                     onChange={(e) => handleStatusChange(delivery._id, e.target.value)}
+                    style={{
+                      backgroundColor: '#2d3748',
+                      color: '#fff',
+                      padding: '6px 12px',
+                      borderRadius: '4px',
+                      border: '1px solid #4a5568',
+                      fontSize: '14px',
+                    }}
                   >
                     <option value="pending">Pending</option>
                     <option value="in_transit">In Transit</option>
                     <option value="delivered">Delivered</option>
                   </select>
-                </td>
-                <td className="border border-gray-700 px-4 py-3">
-                  <button
+                </TableCell>
+                <TableCell>
+                  <Button
+                    variant="outlined"
+                    color="primary"
                     onClick={() => updateStatus(delivery._id)}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded"
+                    sx={{ mr: 1 }}
                   >
-                    Update
-                  </button>
-                </td>
-              </tr>
+                    Update Status
+                  </Button>
+                </TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
-      </div>
-    </nav>
+          </TableBody>
+        </Table>
+      </Box>
+
+      <Box textAlign="center" mt={4}>
+        <Button variant="contained" color="success" onClick={handleDownloadPDF}>
+          Download as PDF
+        </Button>
+      </Box>
+    </Container>
   );
-}
+};
+
+export default AdminDelivery;

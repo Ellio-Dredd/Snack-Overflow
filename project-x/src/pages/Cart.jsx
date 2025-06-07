@@ -132,58 +132,65 @@ export default function Cart() {
   );
 
   const handleReorder = async (orderItems) => {
-    const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
-    try {
-      const userResponse = await axios.get(
-        "http://localhost:3000/api/auth/user",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      const userID = userResponse.data._id;
-
-      const reorderedItems = orderItems.map((item) => ({
-        name: item.name,
-        price: item.price,
-        quantity: item.quantity,
-      }));
-
-      const total = reorderedItems.reduce(
-        (total, item) => total + item.price * item.quantity,
-        0
-      );
-
-      const response = await axios.post(
-        "http://localhost:3000/api/delivery",
-        {
-          orderId: userID,
-          deliveryPerson: "Assigned Soon",
-          deliveryAddress: userResponse.data.address,
-          estimatedDeliveryTime: new Date(Date.now() + 2 * 60 * 60 * 1000),
-          items: reorderedItems,
-          total: total,
-        }
-      );
-
-      const newOrder = response.data;
-      alert("Order placed successfully!");
-
-      navigate("/OrderConfirmation", {
-        state: {
-          trackingNo: newOrder._id,
-          items: reorderedItems,
-          total: total,
-        },
-      });
-    } catch (error) {
-      console.error("Error reordering items:", error.message || error);
-      if (error.response) {
-        console.error("Error response:", error.response.data);
+  try {
+    const userResponse = await axios.get(
+      "http://localhost:3000/api/auth/user",
+      {
+        headers: { Authorization: `Bearer ${token}` },
       }
-      alert("Error reordering items!");
+    );
+    const userID = userResponse.data._id;
+    const userAddress = userResponse.data.address;
+    const userName = userResponse.data.name;
+
+    const reorderedItems = orderItems.map((item) => ({
+      name: item.name,
+      price: item.price,
+      quantity: item.quantity,
+    }));
+
+    const total = reorderedItems.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
+
+    const response = await axios.post(
+      "http://localhost:3000/api/delivery",
+      {
+        orderId: userID,
+        deliveryPerson: "Assigned Soon",
+        deliveryAddress: userAddress,
+        estimatedDeliveryTime: new Date(Date.now() + 2 * 60 * 60 * 1000),
+        items: reorderedItems,
+        total: total,
+        name: userName, // <-- 🔴 This was missing!
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+
+    const newOrder = response.data;
+    alert("Order placed successfully!");
+
+    navigate("/OrderConfirmation", {
+      state: {
+        trackingNo: newOrder._id,
+        items: reorderedItems,
+        total: total,
+      },
+    });
+  } catch (error) {
+    console.error("Error reordering items:", error.message || error);
+    if (error.response) {
+      console.error("Error response:", error.response.data);
     }
-  };
+    alert("Error reordering items!");
+  }
+};
+
 
   return (
     <div

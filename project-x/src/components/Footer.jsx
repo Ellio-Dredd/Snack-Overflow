@@ -52,7 +52,8 @@ export default function Footer() {
 
         <Box textAlign="center" mt={3}>
           <Typography variant="body2" sx={{ opacity: 0.6 }}>
-            &copy; {new Date().getFullYear()} Rajapakse Pharmacy. All rights reserved.
+            &copy; {new Date().getFullYear()} Rajapakse Pharmacy. All rights reserved.<br/><br/>
+            Made with ❤️ by the Snack Overflow Team
           </Typography>
         </Box>
       </Container>
