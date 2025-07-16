@@ -1,0 +1,80 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4fdf8;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Container */
+  .container {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+  }
+  
+  /* Appointment Box */
+  .appointment-container {
+    display: flex;
+    background: #d4f5e7;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #9dd1bb;
+  }
+  
+  /* Pharmacy Section */
+  .pharmacy-section {
+    flex: 1;
+    padding-right: 20px;
+  }
+  
+  .pharmacy-address {
+    margin-top: 10px;
+  }
+  
+  .blue-text {
+    color: blue;
+  }
+  
+  /* Calendar Section */
+  .calendar-section {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+  }
+  
+  /* Details Form Section */
+  .details-section {
+    flex: 2;
+  }
+  
+  .details-section form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .details-section label {
+    margin: 10px 0 5px;
+  }
+  
+  .details-section input, 
+  .details-section select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .next-button {
+    margin-top: 20px;
+    padding: 10px;
+    background: #38a169;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .next-button:hover {
+    background: #2f855a;
+  }
+  
