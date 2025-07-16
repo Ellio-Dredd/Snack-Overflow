@@ -1,0 +1,10 @@
+node_modules
+npm-debug.log
+.env
+build # For frontend, as it's generated, we'll copy it explicitly
+dist
+.git
+.gitignore
+Dockerfile
+docker-compose.yml
+README.md
