@@ -1,10 +1,9 @@
-import User from '../models/User.js';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+const User = require('../models/User');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 // Sign Up controller
-
-export const signUp = async (req, res) => {
+const signUp = async (req, res) => {
   const {
     name,
     address,
@@ -16,18 +15,15 @@ export const signUp = async (req, res) => {
   } = req.body;
 
   try {
-    // Check if user already exists
     const existing = await User.findOne({ email });
     if (existing) {
       return res.status(400).json({ message: 'Email already exists' });
     }
 
-    // Ensure gender is provided
     if (!gender) {
       return res.status(400).json({ message: 'Gender is required' });
     }
 
-    // Create new user
     const user = new User({
       name,
       address,
@@ -38,7 +34,6 @@ export const signUp = async (req, res) => {
       ageUnit
     });
 
-    // Save the user to the database
     await user.save();
     res.status(201).json({ message: 'User registered successfully' });
 
@@ -48,10 +43,8 @@ export const signUp = async (req, res) => {
   }
 };
 
-
-
 // Sign In controller
-export const signIn = async (req, res) => {
+const signIn = async (req, res) => {
   const { email, password } = req.body;
   console.log(" Login attempt:", email);
 
@@ -84,7 +77,7 @@ export const signIn = async (req, res) => {
       token,
       user: {
         _id: user._id,
-        userId: user.userId, 
+        userId: user.userId,
         email: user.email,
         name: user.name,
         address: user.address,
@@ -100,18 +93,19 @@ export const signIn = async (req, res) => {
   }
 };
 
-
-
-
-
-// User info controller (for getting user details after login)
-export const user = async (req, res) => {
+// User info controller
+const user = async (req, res) => {
   try {
-    
-    const user = await User.findById(req.user.userId).select('-password'); // Exclude password for security
+    const user = await User.findById(req.user.userId).select('-password');
     res.json(user);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
+};
+
+module.exports = {
+  signUp,
+  signIn,
+  user
 };
